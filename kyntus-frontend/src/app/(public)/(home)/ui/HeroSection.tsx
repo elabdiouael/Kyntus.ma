@@ -13,8 +13,8 @@ export default function HeroSection() {
       </p>
       
       <div className={styles.actions}>
-        {/* Kan-consomiw l'bouton li saybna b d-debt l had l'page */}
-        <HeroButton text="Découvrir Kyntus" />
+        {/* Fix: Zedna l'prop 'href' li knti nssiti bach TypeScript mayb9ach ybki */}
+        <HeroButton href="/#about" text="Découvrir Kyntus" />
       </div>
     </section>
   );

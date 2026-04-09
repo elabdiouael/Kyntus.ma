@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 interface TypewriterProps {
   text: string;
@@ -13,7 +13,8 @@ export default function Typewriter({ text, delay = 0, className = "", speed = 0.
   // Kan9essmo l'ktaba l 7orouf
   const letters = Array.from(text);
 
-  const container = {
+  // 1. Typing the container variants
+  const container: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -21,7 +22,8 @@ export default function Typewriter({ text, delay = 0, className = "", speed = 0.
     },
   };
 
-  const child = {
+  // 2. Typing the child variants
+  const child: Variants = {
     hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,
