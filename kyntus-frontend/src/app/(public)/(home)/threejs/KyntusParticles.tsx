@@ -131,8 +131,8 @@ useFrame((state) => {
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        {/* Nktbo randoms 7it array dyal position ghaytbdel kol frame */}
-        <bufferAttribute attach="attributes-position" count={particleData.randoms.length / 3} array={new Float32Array(particleData.randoms)} itemSize={3} />
+        {/* Nktbo randoms 7it array dyal position ghaytbdel kol frame (Fix dyal args hna) */}
+        <bufferAttribute attach="attributes-position" args={[new Float32Array(particleData.randoms), 3]} />
       </bufferGeometry>
       {/* Kberna l'size chwiya (0.2) bach yghmmo l'page f lwl */}
       <pointsMaterial size={0.2} map={particleTexture} transparent depthWrite={false} opacity={0.4} />

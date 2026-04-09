@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring, Variants } from "framer-motion";
 import HeroButton from "../typesofbutton/HeroButton";
 import styles from "./hero.module.css";
 
@@ -38,32 +38,34 @@ const HeroTitle = () => {
     return () => clearTimeout(timer);
   }, [typingDuration]);
 
+  // L'HBAAL: INTERACTIVE GREEN TO DARK BLUE ANIMATION Smooth (Typed correctly)
+  const heroTitleVariants: Variants = {
+    green: {
+      "--text-fill-color": greenColor,
+      "--text-glow-color": greenGlowColor,
+      "--text-gradient-stop-color": greenGradientStopColor,
+      "--text-stroke-color": greenStrokeColor,
+      filter: `drop-shadow(0px 15px 30px ${greenShadowColor})`,
+      scale: 1, 
+      x: 0,
+      y: 0
+    } as any, // "as any" bach TS maybkich 3la les variables CSS custom
+    blue: {
+      "--text-fill-color": blueColor,
+      "--text-glow-color": blueGlowColor,
+      "--text-gradient-stop-color": blueGradientStopColor,
+      "--text-stroke-color": blueStrokeColor,
+      filter: `drop-shadow(0px 15px 30px ${blueShadowColor})`,
+      scale: 1.04, 
+      x: 10,
+      y: -5
+    } as any
+  };
+
   return (
     <motion.h1 
       className={styles.megaTitle}
-      // L'HBAAL: INTERACTIVE GREEN TO DARK BLUE ANIMATION Smooth
-      variants={{
-        green: {
-          "--text-fill-color": greenColor,
-          "--text-glow-color": greenGlowColor,
-          "--text-gradient-stop-color": greenGradientStopColor,
-          "--text-stroke-color": greenStrokeColor,
-          filter: `drop-shadow(0px 15px 30px ${greenShadowColor})`,
-          scale: 1, 
-          x: 0,
-          y: 0
-        },
-        blue: {
-          "--text-fill-color": blueColor,
-          "--text-glow-color": blueGlowColor,
-          "--text-gradient-stop-color": blueGradientStopColor,
-          "--text-stroke-color": blueStrokeColor,
-          filter: `drop-shadow(0px 15px 30px ${blueShadowColor})`,
-          scale: 1.04, 
-          x: 10,
-          y: -5
-        }
-      }}
+      variants={heroTitleVariants}
       initial="green"
       whileHover="blue" // Switch smoothly on hover
       transition={{ type: "spring", stiffness: 300, damping: 15 }}
@@ -146,13 +148,13 @@ export default function Hero() {
   }, [mouseX, mouseY]);
 
   // Entrance d'l'Moulouk (T9ila w mweeeezna)
-  const entranceVariants = {
+  const entranceVariants: Variants = {
     hidden: { opacity: 0, x: -30, filter: "blur(15px)" },
     visible: (customDelay: number) => ({
       opacity: 1,
       x: 0,
       filter: "blur(0px)",
-      transition: { duration: 1.8, delay: customDelay, ease: [0.25, 1, 0.5, 1] }
+      transition: { duration: 1.8, delay: customDelay, ease: [0.25, 1, 0.5, 1] as [number, number, number, number] }
     })
   };
 

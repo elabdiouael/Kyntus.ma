@@ -102,8 +102,8 @@ function ParticleText() {
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={geometryData.positions.length / 3} array={geometryData.positions} itemSize={3} />
-        <bufferAttribute attach="attributes-color" count={geometryData.colors.length / 3} array={geometryData.colors} itemSize={3} />
+        <bufferAttribute attach="attributes-position" count={geometryData.positions.length / 3} args={[geometryData.positions, 3]} />
+        <bufferAttribute attach="attributes-color" count={geometryData.colors.length / 3} args={[geometryData.colors, 3]} />
       </bufferGeometry>
       <pointsMaterial size={0.07} vertexColors={true} transparent opacity={0.9} sizeAttenuation={true} />
     </points>
