@@ -6,7 +6,7 @@ import styles from "./services.module.css";
 import ServiceCore3D from "../threejs/ServiceCore3D";
 
 // ========================================================
-// ENGINE x2000: TEXT REVEAL
+// ENGINE: TEXT REVEAL
 // ========================================================
 const CyberTextReveal = ({ text, delayOffset = 0, className = "", inView }: { text: string; delayOffset?: number; className?: string; inView: boolean }) => {
   const words = text.split(" ");
@@ -29,19 +29,19 @@ const CyberTextReveal = ({ text, delayOffset = 0, className = "", inView }: { te
 };
 
 // ========================================================
-// TRANSFORMER COMPONENT: SERVICE CARD
+// TRANSFORMER COMPONENT: SERVICE CARD (THE REAL 3D SOUL)
 // ========================================================
-function ServiceCard({ service, index, inView }: { service: any, index: number, inView: boolean }) {
+function ServiceCard({ service, index, inView, isAnyHovered, setHoveredCard }: { service: any, index: number, inView: boolean, isAnyHovered: boolean, setHoveredCard: (id: string | null) => void }) {
   const [isHovered, setIsHovered] = useState(false);
   
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], ["10deg", "-10deg"]), { damping: 20, stiffness: 100 });
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], ["-10deg", "10deg"]), { damping: 20, stiffness: 100 });
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], ["15deg", "-15deg"]), { damping: 20, stiffness: 100 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], ["-15deg", "15deg"]), { damping: 20, stiffness: 100 });
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const background = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, rgba(46, 237, 46, 0.15), transparent 80%)`;
+  const background = useMotionTemplate`radial-gradient(500px circle at ${mouseX}px ${mouseY}px, rgba(46, 237, 46, 0.2), transparent 80%)`;
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -51,25 +51,51 @@ function ServiceCard({ service, index, inView }: { service: any, index: number, 
     mouseY.set(e.clientY - rect.top);
   };
 
-  const handleMouseLeave = () => { setIsHovered(false); x.set(0); y.set(0); };
+  const handleMouseEnter = () => { setIsHovered(true); setHoveredCard(service.id); };
+  const handleMouseLeave = () => { setIsHovered(false); setHoveredCard(null); x.set(0); y.set(0); };
+
+  // Ila knt m-hovri 3la chi carte akhra, had l'carte kat-k7al chwia
+  const isDimmed = isAnyHovered && !isHovered;
 
   return (
     <div className={styles.perspectiveWrapper}>
       <motion.div 
         className={styles.dynamicCard}
         onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHovered(true)}
+        onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d", zIndex: isHovered ? 50 : 1 }}
         initial={{ opacity: 0, y: 50, scale: 0.95 }}
-        animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-        transition={{ delay: 0.4 + index * 0.1, type: "spring", stiffness: 100, damping: 20 }}
+        animate={{ 
+          opacity: inView ? (isDimmed ? 0.4 : 1) : 0, 
+          y: inView ? 0 : 50, 
+          scale: inView ? (isDimmed ? 0.95 : 1) : 0.95,
+          filter: isDimmed ? "blur(3px)" : "blur(0px)"
+        }}
+        transition={{ delay: inView && !isAnyHovered ? 0.4 + index * 0.1 : 0, duration: 0.5 }}
       >
-        <ServiceCore3D isHovered={isHovered} mouseX={x} mouseY={y} />
-        <motion.div className={styles.spotlight} style={{ background }} />
-        <div className={styles.borderGlow}></div>
+        {/* ========================================= */}
+        {/* BACKGROUND LAYER - Design l'asli dyalek 100% */}
+        {/* ========================================= */}
+        <div className={styles.cardBgLayer}>
+          <ServiceCore3D isHovered={isHovered} mouseX={x} mouseY={y} />
+          <motion.div className={styles.spotlight} style={{ background }} />
+          <div className={styles.borderGlow}></div>
+        </div>
         
-        <div className={styles.cardContent}>
+        {/* ========================================= */}
+        {/* ORIGINAL CONTENT - Kaybluri w kaymchi l lorr fl Hover */}
+        {/* ========================================= */}
+        <motion.div 
+          className={styles.originalContent}
+          animate={{
+            opacity: isHovered ? 0 : 1, 
+            z: isHovered ? -50 : 20, 
+            scale: isHovered ? 0.8 : 1,
+            filter: isHovered ? "blur(20px)" : "blur(0px)" 
+          }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+        >
           <div className={styles.iconWrapper}>
             {service.icon || <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>}
           </div>
@@ -79,7 +105,45 @@ function ServiceCard({ service, index, inView }: { service: any, index: number, 
             <span>Discover More</span>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
-        </div>
+        </motion.div>
+
+        {/* ========================================= */}
+        {/* RRO7 (THE REAL SOUL) - Design Hbil (Title + Desc only) */}
+        {/* ========================================= */}
+        <motion.div
+          className={styles.soulCard}
+          initial={{ opacity: 0, z: -20, scale: 0.5 }}
+          animate={{
+            opacity: isHovered ? 1 : 0,
+            z: isHovered ? 120 : -20,  // Katkhrej l brra f 3D
+            scale: isHovered ? 1.05 : 0.5
+          }}
+          transition={{ duration: 0.6, type: "spring", stiffness: 120, damping: 14 }}
+          style={{ pointerEvents: isHovered ? "auto" : "none" }}
+        >
+          <div className={styles.soulHologramBg}></div>
+          <div className={styles.soulGridScanner}></div>
+          
+          <div className={styles.soulContentBox}>
+            <div className={styles.soulHeader}>
+              <div className={styles.soulIconPulse}>
+                {service.icon}
+              </div>
+              <span className={styles.soulBadge}>KYNTUS // ACTIVE CORE</span>
+            </div>
+            
+            <h4 className={styles.soulTitle}>{service.title}</h4>
+            <p className={styles.soulDesc}>{service.desc}</p>
+            
+            <div className={styles.soulFooter}>
+              <div className={styles.hologramLines}>
+                <span></span><span></span><span></span>
+              </div>
+              <div className={styles.soulAction}>EXPLORE SYSTEM</div>
+            </div>
+          </div>
+        </motion.div>
+
       </motion.div>
     </div>
   );
@@ -91,6 +155,8 @@ function ServiceCard({ service, index, inView }: { service: any, index: number, 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
   const isSectionInView = useInView(sectionRef, { once: true, margin: "-15%" });
+  
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   const servicesData = [
     {
@@ -138,25 +204,25 @@ export default function Services() {
 
         <div className={styles.smartGrid}>
           {servicesData.map((service, index) => (
-            <ServiceCard key={service.id} service={service} index={index} inView={isSectionInView} />
+            <ServiceCard 
+              key={service.id} 
+              service={service} 
+              index={index} 
+              inView={isSectionInView} 
+              isAnyHovered={hoveredCard !== null}
+              setHoveredCard={setHoveredCard}
+            />
           ))}
         </div>
       </div>
 
-      {/* ========================================================= */}
-      {/* L'HBAAL: LIQUID QUANTUM RIFT (Amwaj Katmouwej 100%) */}
-      {/* ========================================================= */}
       <div className={styles.quantumRiftContainer}>
         <div className={styles.riftGlow}></div>
-        
-        {/* L'mouja li lorr (Deep Blue, T9ila) */}
         <div className={styles.waveWrapperBack}>
           <svg viewBox="0 0 2880 320" preserveAspectRatio="none" className={styles.waveSvg}>
             <path fill="rgba(0, 68, 255, 0.4)" d="M0,180 Q360,300 720,180 T1440,180 T2160,180 T2880,180 L2880,320 L0,320 Z"></path>
           </svg>
         </div>
-
-        {/* L'mouja l'asasiya (K7la, b Laser Khedr, Sari3a) */}
         <div className={styles.waveWrapperFront}>
           <svg viewBox="0 0 2880 320" preserveAspectRatio="none" className={styles.waveSvg}>
             <path fill="#020612" d="M0,160 Q360,280 720,160 T1440,160 T2160,160 T2880,160 L2880,320 L0,320 Z"></path>

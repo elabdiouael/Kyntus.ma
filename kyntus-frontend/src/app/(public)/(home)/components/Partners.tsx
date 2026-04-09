@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView, useMotionValue, useMotionValueEvent, useAnimationFrame } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
 import styles from "./partners.module.css";
 
 // ========================================================
@@ -28,51 +28,48 @@ const CyberTextReveal = ({ text, delayOffset = 0, className = "", inView }: { te
 };
 
 // ========================================================
-// MAIN COMPONENT: PARTNERS 3D CAROUSEL (Cinematic Focus)
+// MAIN COMPONENT: PARTNERS COVERFLOW (PREMIUM FULL-CARD)
 // ========================================================
 export default function Partners() {
   const sectionRef = useRef<HTMLElement>(null);
   const isSectionInView = useInView(sectionRef, { once: true, margin: "-15%" });
 
-  // 6 Items bach l'7al9a tji m3mra w lorr yban fih 3 dyal charikat ky-tllou
+  // Les items dyalek (6)
   const carouselItems = [
-    { brand: 'bytel', color: 'rgba(0, 164, 228' },   
-    { brand: 'orange', color: 'rgba(255, 121, 0' }, 
-    { brand: 'SFR', color: 'rgba(226, 0, 26' },     
-    { brand: 'bytel', color: 'rgba(0, 164, 228' },
-    { brand: 'orange', color: 'rgba(255, 121, 0' },
-    { brand: 'SFR', color: 'rgba(226, 0, 26' }
+    { brand: 'bytel', rgb: '0, 164, 228' },   // Bouygues - Blue
+    { brand: 'orange', rgb: '255, 121, 0' },  // Orange
+    { brand: 'SFR', rgb: '226, 0, 26' },      // SFR - Red
+    { brand: 'bytel', rgb: '0, 164, 228' },
+    { brand: 'orange', rgb: '255, 121, 0' },
+    { brand: 'SFR', rgb: '226, 0, 26' }
   ];
 
-  const rotationY = useMotionValue(0);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [position, setPosition] = useState(0);
   const [isHovering, setIsHovering] = useState(false); 
 
-  // L'Vitesse dyal d-doran
-  useAnimationFrame((t, delta) => {
-    if (!isHovering) {
-      rotationY.set(rotationY.get() - (delta * 0.015)); 
-    }
-  });
+  // L'Moteur li kaybeddel l'blassa koul 2s
+  useEffect(() => {
+    if (isHovering) return;
+    const interval = setInterval(() => {
+      setPosition((prev) => prev + 1);
+    }, 2000); 
+    return () => clearInterval(interval);
+  }, [isHovering]);
 
-  useMotionValueEvent(rotationY, "change", (latest) => {
-    let angle = ((-latest % 360) + 360) % 360; 
-    let index = Math.round(angle / 60) % 6; 
-    setActiveIndex(index);
-  });
+  const activeIndex = ((position % carouselItems.length) + carouselItems.length) % carouselItems.length;
 
   const getAuraColor = () => {
-    return `${carouselItems[activeIndex].color}, 0.2)`; 
+    return `rgba(${carouselItems[activeIndex].rgb}, 0.25)`; 
   };
 
   return (
     <section className={styles.partnersSection} ref={sectionRef}>
       
-      {/* BACKGROUND AURA */}
+      {/* BACKGROUND AURA LI KAYTBEDDEL */}
       <motion.div 
         className={styles.dynamicAura}
         animate={{ background: `radial-gradient(circle at 75% 50%, ${getAuraColor()} 0%, transparent 60%)` }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
       />
       <div className={styles.topGlowLine}></div>
       
@@ -106,52 +103,63 @@ export default function Partners() {
             </p>
           </div>
 
-          {/* ================= RIGHT: 3D ROTATING CAROUSEL ================= */}
+          {/* ================= RIGHT: COVERFLOW (FULL CARD LOGOS) ================= */}
           <div 
             className={styles.carouselColumn}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
           >
-            {/* L'HBAAL HNA: Zedt rotateX: "-15deg" bach l'Ring t-miel lta7t w li lorr y-tllou mn lfo9! */}
-            <motion.div 
-              className={styles.carouselScene}
-              style={{ rotateX: "-15deg", rotateY: rotationY, transformStyle: "preserve-3d" }}
-            >
+            <div className={styles.carouselScene} style={{ transformStyle: "preserve-3d" }}>
               {carouselItems.map((item, i) => {
-                const isFront = activeIndex === i;
-                
+                let diff = i - activeIndex;
+                if (diff > 3) diff -= 6;
+                if (diff < -2) diff += 6;
+
+                const absDiff = Math.abs(diff);
+                const isFront = diff === 0;
+
                 return (
                   <motion.div 
                     key={i} 
                     className={styles.carouselItem}
-                    // Kberna l'Radius l 350px bach maydzamtouch tsawer 7it homa kbar db
-                    style={{ transform: `rotateY(${i * 60}deg) translateZ(350px)` }}
                     animate={{ 
-                      // 1.3 Scale l'Front (3imlaa9a), 0.8 l'Back
-                      scale: isFront ? 1.3 : 0.8,
-                      opacity: isFront ? 1 : 0.25,
-                      // L'Moulouk: Blur w k7el wbyed l'lor, w Clear N9iii l'9ddam!
-                      filter: isFront ? "grayscale(0%) blur(0px)" : "grayscale(100%) brightness(0.3) blur(5px)"
+                      x: diff * 160, 
+                      z: absDiff * -120, 
+                      rotateY: diff * -40, 
+                      scale: isFront ? 1.3 : (absDiff === 1 ? 0.9 : 0.75),
+                      opacity: absDiff >= 3 ? 0 : (isFront ? 1 : 0.4),
+                      filter: isFront ? "blur(0px) brightness(1.1)" : "blur(3px) brightness(0.6)"
                     }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                    style={{ 
+                      zIndex: 10 - absDiff,
+                      boxShadow: isFront 
+                        ? `0 0 50px rgba(${item.rgb}, 0.6), inset 0 0 20px rgba(${item.rgb}, 0.5)` 
+                        : `0 0 15px rgba(${item.rgb}, 0.2)`
+                    }}
                   >
-                    <div className={styles.imageContainer}>
-                      <img src={`/part/${item.brand}.jpg`} alt={`${item.brand} logo`} className={styles.partnerImg} />
-                      <div className={styles.scanlines}></div>
+                    {/* 1. L'Image katakhod l'carte kamla */}
+                    <img src={`/part/${item.brand}.jpg`} alt={`${item.brand} logo`} className={styles.fullCardImg} />
+                    
+                    {/* 2. Glass Overlay bach tb9a tbri w tban 3D / Premium */}
+                    <div className={styles.glassOverlay} style={{ 
+                      background: `linear-gradient(135deg, rgba(${item.rgb}, 0.25) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(0, 0, 0, 0.4) 100%)`
+                    }}>
+                      <div className={styles.energyStreaks}></div>
                     </div>
                     
-                    {/* Ddow lta7t kiche3el ghir mn ykoun f l'Front */}
+                    {/* 3. Ddow lta7t kiche3el l'dik li En Face */}
                     <div 
                       className={styles.bottomGlow} 
                       style={{ 
-                        background: `${item.color}, 0.8)`,
+                        background: `rgba(${item.rgb}, 1)`,
                         opacity: isFront ? 1 : 0 
                       }} 
                     />
                   </motion.div>
                 );
               })}
-            </motion.div>
+            </div>
           </div>
           
         </div>

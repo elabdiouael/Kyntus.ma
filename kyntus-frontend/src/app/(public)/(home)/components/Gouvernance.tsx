@@ -143,8 +143,6 @@ export default function Gouvernance() {
   ];
 
   const moroccoTeam = [
-    { name: "Ouail ELABDI", role1: "Project Manager", role2: "AI/ML Mentor", img: "Kyntus_Ouail", linkedin: "#" },
-    { name: "Abderrahim SADIK", role1: "General Manager", role2: "Technical Manager", img: "Kyntus_Abder", linkedin: "https://www.linkedin.com/in/sadik-abderrahim-a31365160/" },
     { name: "Younès HERRAS", role1: "General Manager", role2: "Purchasing Manager", img: "Kyntus_Younes-HERRAS", linkedin: "https://www.linkedin.com/in/younes-herras-9b2244360/" },
   ];
 
