@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent, Variants } from "framer-motion";
 import styles from "./about.module.css";
 import LuxeElement from "../framemotionandgsap/LuxeElement";
 import Royal3DCard from "../hovers/Royal3DCard";
@@ -24,23 +24,23 @@ export default function About() {
     }
   });
 
-  const panelVariants = {
+  const panelVariants: Variants = {
     hidden: { opacity: 0, x: -50, filter: "blur(20px)" },
     visible: (customDelay: number) => ({
       opacity: 1, 
       x: 0, 
       filter: "blur(0px)",
       transition: { 
-        delay: customDelay, // Delay mrigel hna
+        delay: customDelay, 
         duration: 0.8, 
-        ease: [0.16, 1, 0.3, 1],
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
         staggerChildren: 0.1,
         delayChildren: customDelay + 0.3 
       }
     })
   };
 
-  const text3DVariants = {
+  const text3DVariants: Variants = {
     hidden: { y: 60, opacity: 0, rotateX: -50, filter: "blur(10px)" },
     visible: { 
       y: 0, opacity: 1, rotateX: 0, filter: "blur(0px)",
@@ -48,23 +48,23 @@ export default function About() {
     }
   };
 
-  const lineVariants = {
+  const lineVariants: Variants = {
     hidden: { scaleX: 0, transformOrigin: "left" },
     visible: { scaleX: 1, transition: { duration: 1, ease: "circOut" } }
   };
 
   // Center Pop dyal Tsawer (Hidden 100% 9bel l'wa9t)
-  const centerPopVariants = {
-    hidden: { opacity: 0, scale: 0.5, filter: "blur(20px)", pointerEvents: "none" as const },
+  const centerPopVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.5, filter: "blur(20px)", pointerEvents: "none" },
     visible: (customDelay: number) => ({
       opacity: 1, 
       scale: 1, 
       filter: "blur(0px)",
-      pointerEvents: "auto" as const,
+      pointerEvents: "auto",
       transition: { 
         delay: customDelay, 
         duration: 0.8, 
-        ease: [0.16, 1, 0.3, 1] 
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number]
       }
     })
   };
