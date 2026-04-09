@@ -217,4 +217,118 @@
 
 .executiveCard:hover .linkedinBtn { opacity: 1; transform: translateY(0); }
 .linkedinBtn:hover { background: #0077b5; color: #ffffff; box-shadow: 0 10px 25px rgba(0, 119, 181, 0.6); width: 95%; }
-.linkedinBtn:hover .linkedinText { display: inline-block; }
+.linkedinBtn:hover .linkedinText { display: inline-block; }/* =========================================
+   BRANCH SELECTION (FRANCE VS MOROCCO)
+   ========================================= */
+.branchSelection {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.branchCard {
+  position: relative;
+  width: 340px;
+  padding: 3rem 2rem;
+  background: rgba(10, 15, 30, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  cursor: pointer;
+  text-align: center;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.branchIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.branchCard h3 {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.branchCard p {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.glowBlue {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 100px;
+  background: rgba(0, 68, 255, 0.4);
+  filter: blur(40px);
+  border-radius: 50%;
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.glowGreen {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 100px;
+  background: rgba(46, 237, 46, 0.4);
+  filter: blur(40px);
+  border-radius: 50%;
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.branchCard:hover .glowBlue,
+.branchCard:hover .glowGreen {
+  opacity: 1;
+  bottom: -20px;
+}
+
+/* =========================================
+   BACK BUTTON
+   ========================================= */
+.backButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+  width: 100%;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.8rem 1.5rem;
+  border-radius: 100px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.backButton svg {
+  width: 18px;
+  height: 18px;
+}
+
+.backButton:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}

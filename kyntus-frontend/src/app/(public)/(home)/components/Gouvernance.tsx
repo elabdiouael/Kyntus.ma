@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, MouseEvent } from "react";
-import { motion, useInView, useMotionTemplate, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useInView, useMotionTemplate, useMotionValue, useSpring, useTransform, Variants } from "framer-motion";
 import styles from "./gouvernance.module.css";
 
 // ========================================================
@@ -80,7 +80,7 @@ function ExecutiveCard({ member, index, inView }: { member: any, index: number, 
         <div className={styles.avatarStage}>
           <div className={styles.hologramRing}></div>
           <div className={styles.imageWrapper}>
-            <img src={`/Orga/${member.img}.png`} alt={member.name} className={styles.portrait} />
+            <img src={`/Orga/${member.img}.png`} alt={member.name} className={styles.portrait} onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=' + member.name + '&background=020612&color=2EED2E&size=200'; }} />
           </div>
         </div>
 
@@ -118,6 +118,9 @@ function ExecutiveCard({ member, index, inView }: { member: any, index: number, 
 export default function Gouvernance() {
   const sectionRef = useRef<HTMLElement>(null);
   const isSectionInView = useInView(sectionRef, { once: true, margin: "-15%" });
+  
+  // L'STATE JDID: Ykhtar l'branch 9bel ma ychouf l'équipe
+  const [selectedBranch, setSelectedBranch] = useState<"france" | "morocco" | null>(null);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -129,7 +132,7 @@ export default function Gouvernance() {
     mouseY.set(e.clientY - rect.top);
   };
 
-  const teamMembers = [
+  const franceTeam = [
     { name: "Fabrice de SEZE", role1: "Chairman", role2: "", img: "Kyntus_Fabriece-de-SEZE", linkedin: "https://www.linkedin.com/in/fabrice-d-98597aa/" },
     { name: "Franck BOUETARD", role1: "Chief Executive Officer", role2: "", img: "Photo-Franck-Bouetard", linkedin: "https://www.linkedin.com/in/franck-bouetard/" },
     { name: "Abderrahim SADIK", role1: "General Manager", role2: "Technical Manager", img: "Kyntus_Abder", linkedin: "https://www.linkedin.com/in/sadik-abderrahim-a31365160/" },
@@ -138,6 +141,22 @@ export default function Gouvernance() {
     { name: "Vincent TOSTAIN", role1: "General Manager, ATS", role2: "", img: "Kyntus_Vincent-Tostain", linkedin: "https://www.linkedin.com/in/vincent-tostain-4ab905114/" },
     { name: "Fintan SHORTALL", role1: "Chairman of Entegro", role2: "", img: "Fintan", linkedin: "https://www.linkedin.com/in/fintan-shortall-44958a1a/" },
   ];
+
+  const moroccoTeam = [
+    { name: "Ouail ELABDI", role1: "Project Manager", role2: "AI/ML Mentor", img: "Kyntus_Ouail", linkedin: "#" },
+    { name: "Abderrahim SADIK", role1: "General Manager", role2: "Technical Manager", img: "Kyntus_Abder", linkedin: "https://www.linkedin.com/in/sadik-abderrahim-a31365160/" },
+    { name: "Younès HERRAS", role1: "General Manager", role2: "Purchasing Manager", img: "Kyntus_Younes-HERRAS", linkedin: "https://www.linkedin.com/in/younes-herras-9b2244360/" },
+  ];
+
+  const activeTeam = selectedBranch === "france" ? franceTeam : moroccoTeam;
+
+  // Animation dyal choix
+  const choiceVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (custom: number) => ({
+      opacity: 1, y: 0, transition: { delay: custom * 0.2, duration: 0.6, ease: [0.25, 1, 0.5, 1] as [number, number, number, number] }
+    })
+  };
 
   return (
     <section className={styles.gouvernanceSection} ref={sectionRef} onMouseMove={handleGlobalMouseMove}>
@@ -158,17 +177,65 @@ export default function Gouvernance() {
           </h2>
 
           <p className={styles.subtitle}>
-            <TypewriterText text="Meet the visionaries driving Kyntus forward. A board of industry veterans dedicated to excellence and innovation." delayOffset={1.2} speed={0.03} className={styles.typewriterSubText} inView={isSectionInView} />
+            <TypewriterText text="Meet the visionaries driving Kyntus forward. Select a branch to explore our executive boards." delayOffset={1.2} speed={0.03} className={styles.typewriterSubText} inView={isSectionInView} />
           </p>
         </div>
 
-        <div className={styles.membersGrid}>
-          {teamMembers.map((member, index) => (
-            <div key={index} className={styles.cardContainer}>
-              <ExecutiveCard member={member} index={index} inView={isSectionInView} />
+        {/* L'CHOIX DYAL L'BRANCH */}
+        {!selectedBranch ? (
+          <div className={styles.branchSelection}>
+            <motion.div 
+              className={styles.branchCard}
+              variants={choiceVariants}
+              initial="hidden"
+              animate={isSectionInView ? "visible" : "hidden"}
+              custom={1}
+              onClick={() => setSelectedBranch("france")}
+              whileHover={{ scale: 1.05, y: -10, borderColor: "rgba(0, 68, 255, 0.8)" }}
+            >
+              <div className={styles.branchIcon}>🇫🇷</div>
+              <h3>Kyntus France</h3>
+              <p>Explore the headquarters leadership team.</p>
+              <div className={styles.glowBlue}></div>
+            </motion.div>
+
+            <motion.div 
+              className={styles.branchCard}
+              variants={choiceVariants}
+              initial="hidden"
+              animate={isSectionInView ? "visible" : "hidden"}
+              custom={2}
+              onClick={() => setSelectedBranch("morocco")}
+              whileHover={{ scale: 1.05, y: -10, borderColor: "rgba(46, 237, 46, 0.8)" }}
+            >
+              <div className={styles.branchIcon}>🇲🇦</div>
+              <h3>Kyntus Morocco</h3>
+              <p>Meet the regional experts and innovators.</p>
+              <div className={styles.glowGreen}></div>
+            </motion.div>
+          </div>
+        ) : (
+          /* L'GRID DYAL L'EQUIPE B'RETOUR BOUTON */
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <div className={styles.backButtonContainer}>
+              <button className={styles.backButton} onClick={() => setSelectedBranch(null)}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Back to Branches
+              </button>
             </div>
-          ))}
-        </div>
+            <div className={styles.membersGrid}>
+              {activeTeam.map((member, index) => (
+                <div key={`${selectedBranch}-${index}`} className={styles.cardContainer}>
+                  <ExecutiveCard member={member} index={index} inView={true} />
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
 
       </div>
 
@@ -176,10 +243,8 @@ export default function Gouvernance() {
       {/* L'HBAAL HNA: DUAL ELECTRICITY BORDER (BOTTOM LTR & RTL) */}
       {/* ========================================================= */}
       <div className={styles.electricBorderBottom}>
-        {/* LTR Sparks */}
         <div className={styles.sparkFastLTR}></div>
         <div className={styles.sparkSlowLTR}></div>
-        {/* RTL Sparks */}
         <div className={styles.sparkFastRTL}></div>
         <div className={styles.sparkSlowRTL}></div>
       </div>

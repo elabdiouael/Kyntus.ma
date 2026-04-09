@@ -8,9 +8,6 @@ import { MotionValue } from "framer-motion";
 function ParticleMorph({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
   const pointsRef = useRef<THREE.Points>(null);
   const { viewport } = useThree();
-  
-  // L'9FEL L'ABEDI (NO STEP BACK): 
-  // Hada kay7fed a3la niveau d scroll wselti lih, bach maykhlikch trje3 l'lor!
   const maxProgressRef = useRef(0);
   
   const particleTexture = useMemo(() => {
@@ -19,7 +16,6 @@ function ParticleMorph({ scrollProgress }: { scrollProgress: MotionValue<number>
     canvas.height = 64;
     const ctx = canvas.getContext("2d")!;
     const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    // Khedr mjehed f lwest bach y3tiw couleur mghlo9 mli ykouno mcht-tin
     gradient.addColorStop(0, "rgba(255, 255, 255, 1)"); 
     gradient.addColorStop(0.2, "rgba(46, 237, 46, 1)"); 
     gradient.addColorStop(1, "rgba(46, 237, 46, 0)"); 
@@ -55,17 +51,14 @@ function ParticleMorph({ scrollProgress }: { scrollProgress: MotionValue<number>
     const targets = [];
     const randoms = [];
 
-    // KTAFA X4 (+= 2) bach l'page tban Khedra f lwl!
     for (let y = 0; y < 1200; y += 2) {
       for (let x = 0; x < 2400; x += 2) {
         const index = (y * 2400 + x) * 4;
         if (imgData[index + 3] > 128) {
-          
           const pX = (x - 1200) / 60; 
           const pY = -(y - 600) / 60;
           targets.push(pX, pY, 0);
 
-          // Intichar m9owwed (Particles kaytiro ta 7da l'camera bach ybano kbar w khedrin)
           const rX = (Math.random() - 0.5) * 200; 
           const rY = (Math.random() - 0.5) * 200;
           const rZ = (Math.random() - 0.5) * 80 + 20; 
@@ -81,13 +74,11 @@ function ParticleMorph({ scrollProgress }: { scrollProgress: MotionValue<number>
     });
   }, [viewport]);
 
-useFrame((state) => {
-    // 1. ZEDNA !scrollProgress HNA BACH MAY-CRASHICH ILA KANT UNDEFINED
+  useFrame((state) => {
     if (!pointsRef.current || !particleData || !scrollProgress) return; 
     
     const positions = pointsRef.current.geometry.attributes.position.array as Float32Array;
     
-    // 2. KAN9RAW L'SCROLL (Men 0.01 tal 0.45) b 7imaya
     let rawProgress = 0;
     if (typeof scrollProgress.get === 'function') {
         rawProgress = (scrollProgress.get() - 0.01) / 0.44;
@@ -100,12 +91,16 @@ useFrame((state) => {
     }
     
     const p = maxProgressRef.current; 
-    
     const easeP = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
 
+    // OPTIMIZATION: 7sebna l'wa9t 3la berra dyal l'boucle bach l'CPU maytfrge3ch
+    const timeHalf = state.clock.elapsedTime * 0.5;
+    const noiseMultiplier = 3 * (1 - easeP);
+
     for (let i = 0; i < positions.length; i += 3) {
-      const noiseX = Math.sin(state.clock.elapsedTime * 0.5 + i) * 3 * (1 - easeP);
-      const noiseY = Math.cos(state.clock.elapsedTime * 0.5 + i) * 3 * (1 - easeP);
+      // OPTIMIZATION: Math.sin w Math.cos db mkhfin
+      const noiseX = Math.sin(timeHalf + i) * noiseMultiplier;
+      const noiseY = Math.cos(timeHalf + i) * noiseMultiplier;
 
       const startX = particleData.randoms[i] + noiseX;
       const startY = particleData.randoms[i + 1] + noiseY;
@@ -115,9 +110,9 @@ useFrame((state) => {
       const targetY = particleData.targets[i + 1];
       const targetZ = particleData.targets[i + 2];
 
-      positions[i] = THREE.MathUtils.lerp(startX, targetX, easeP);
-      positions[i + 1] = THREE.MathUtils.lerp(startY, targetY, easeP);
-      positions[i + 2] = THREE.MathUtils.lerp(startZ, targetZ, easeP);
+      positions[i] = startX + (targetX - startX) * easeP; // OPTIMIZATION: lerp manuel sra3 mn THREE.MathUtils.lerp
+      positions[i + 1] = startY + (targetY - startY) * easeP;
+      positions[i + 2] = startZ + (targetZ - startZ) * easeP;
     }
 
     pointsRef.current.geometry.attributes.position.needsUpdate = true;
@@ -131,10 +126,8 @@ useFrame((state) => {
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        {/* Nktbo randoms 7it array dyal position ghaytbdel kol frame (Fix dyal args hna) */}
         <bufferAttribute attach="attributes-position" args={[new Float32Array(particleData.randoms), 3]} />
       </bufferGeometry>
-      {/* Kberna l'size chwiya (0.2) bach yghmmo l'page f lwl */}
       <pointsMaterial size={0.2} map={particleTexture} transparent depthWrite={false} opacity={0.4} />
     </points>
   );
@@ -143,7 +136,8 @@ useFrame((state) => {
 export default function KyntusParticles({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
   return (
     <div style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }}>
-      <Canvas camera={{ position: [0, 0, 30], fov: 45 }}>
+      {/* OPTIMIZATION: dpr w powerPreference */}
+      <Canvas camera={{ position: [0, 0, 30], fov: 45 }} dpr={[1, 1.5]} gl={{ powerPreference: "high-performance", antialias: false }}>
         <ParticleMorph scrollProgress={scrollYProgress} />
       </Canvas>
     </div>

@@ -26,7 +26,7 @@ function ParticleText() {
     
     if (!ctx) return;
     
-    ctx.font = "900 180px 'Inter', sans-serif"; // Seghernaha chwya
+    ctx.font = "900 180px 'Inter', sans-serif"; 
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
@@ -72,6 +72,9 @@ function ParticleText() {
     const mouseX = (pointer.x * viewport.width) / 2;
     const mouseY = (pointer.y * viewport.height) / 2;
 
+    const maxDist = 3; 
+    const maxDistSq = maxDist * maxDist; // OPTIMIZATION: Squared distance
+
     for (let i = 0; i < positions.length; i += 3) {
       const pX = positions[i];
       const pY = positions[i + 1];
@@ -80,11 +83,10 @@ function ParticleText() {
 
       const dx = pX - mouseX;
       const dy = pY - mouseY;
-      const dist = Math.sqrt(dx * dx + dy * dy);
+      const distSq = dx * dx + dy * dy; // OPTIMIZATION: No Math.sqrt()
 
-      const maxDist = 3; 
-
-      if (dist < maxDist) {
+      if (distSq < maxDistSq) {
+        const dist = Math.sqrt(distSq); // Only do sqrt IF it's close enough
         const force = (maxDist - dist) / maxDist;
         positions[i] += (dx / dist) * force * 0.8; 
         positions[i + 1] += (dy / dist) * force * 0.8;
@@ -125,9 +127,6 @@ export default function Footer() {
       <div className={styles.topDivider}></div>
       <div className={styles.glowLine}></div>
 
-      {/* ========================================================= */}
-      {/* L'HBAAL: LUXURY BREATHING BACKGROUND (Auras) */}
-      {/* ========================================================= */}
       <div className={styles.luxuryBackground}>
         <div className={styles.luxuryAura1}></div>
         <div className={styles.luxuryAura2}></div>
@@ -135,19 +134,14 @@ export default function Footer() {
 
       <div className={styles.container}>
         
-        {/* ========================================================= */}
-        {/* MACRO LOGO 3D */}
-        {/* ========================================================= */}
         <div className={styles.macroLogoContainer}>
           <div className={styles.canvasWrapper}>
-            <Canvas camera={{ position: [0, 0, 18], fov: 40 }}>
+            {/* OPTIMIZATION: dpr w powerPreference */}
+            <Canvas camera={{ position: [0, 0, 18], fov: 40 }} dpr={[1, 1.5]} gl={{ powerPreference: "high-performance", antialias: false }}>
               <ParticleText />
             </Canvas>
           </div>
           
-          {/* ========================================================= */}
-          {/* CINEMATIC TEXT ANIMATION (Blur-to-Focus Reveal) */}
-          {/* ========================================================= */}
           <motion.div 
             className={styles.sloganContainer}
             initial="hidden"
@@ -174,9 +168,6 @@ export default function Footer() {
           </motion.div>
         </div>
 
-        {/* ========================================================= */}
-        {/* BOTTOM BAR: MINIMAL */}
-        {/* ========================================================= */}
         <div className={styles.bottomBar}>
           <div className={styles.copyright}>
             &copy; {new Date().getFullYear()} Kyntus Group. All rights reserved.

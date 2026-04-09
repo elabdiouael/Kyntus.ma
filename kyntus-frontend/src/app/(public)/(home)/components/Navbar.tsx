@@ -58,7 +58,7 @@ export default function Navbar() {
               <Link href="/" className={styles.logoLink}>
                 <img src="/HomeImages/kyntuslogo.png" alt="Kyntus Logo" className={styles.logoImage} />
                 <span className={styles.logoText}>
-                  kyntus<span className={styles.dot}>.</span>
+                  kyntus Morocco<span className={styles.dot}>.</span>
                 </span>
               </Link>
             </motion.div>

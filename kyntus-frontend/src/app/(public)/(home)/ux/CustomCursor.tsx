@@ -49,12 +49,12 @@ function Cursor3DLuxe({ color, isHovering }: { color: string; isHovering: boolea
       </mesh>
 
       <mesh ref={ring1Ref}>
-        <torusGeometry args={[0.3, 0.008, 16, 64]} />
+        <torusGeometry args={[0.3, 0.008, 16, 32]} />
         <meshBasicMaterial color={color} transparent opacity={isHovering ? 0.9 : 0.3} />
       </mesh>
 
       <mesh ref={ring2Ref}>
-        <torusGeometry args={[0.45, 0.005, 16, 64]} />
+        <torusGeometry args={[0.45, 0.005, 16, 32]} />
         <meshBasicMaterial color={color} transparent opacity={isHovering ? 0.5 : 0.15} />
       </mesh>
     </group>
@@ -68,15 +68,15 @@ export default function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
   const [bgContext, setBgContext] = useState<"darkBlue" | "white" | "green">("darkBlue");
 
-  // 1. FAST MOUSE
+  // 1. FAST MOUSE (Instantané)
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  // 2. TRAILING AURA (Smooth)
+  // 2. TRAILING AURA (Snappy w khfifa)
   const auraMouseX = useMotionValue(-100);
   const auraMouseY = useMotionValue(-100);
-  const auraX = useSpring(auraMouseX, { stiffness: 80, damping: 20, mass: 0.5 });
-  const auraY = useSpring(auraMouseY, { stiffness: 80, damping: 20, mass: 0.5 });
+  const auraX = useSpring(auraMouseX, { stiffness: 300, damping: 25, mass: 0.2 });
+  const auraY = useSpring(auraMouseY, { stiffness: 300, damping: 25, mass: 0.2 });
 
   useEffect(() => {
     const startX = window.innerWidth / 2;
@@ -88,14 +88,18 @@ export default function CustomCursor() {
 
     document.body.style.cursor = 'none';
 
+    // HADI KATKHEDEM GHIR L'7ARAKA (0 Latency)
     const updateMousePosition = (e: MouseEvent) => {
       cursorX.set(e.clientX - 50); 
       cursorY.set(e.clientY - 50);
       auraMouseX.set(e.clientX - 125);
       auraMouseY.set(e.clientY - 125);
+    };
 
+    // HADI KATKHEDEM GHIR MLI KATDKHEL L'CHI ELEMENT (Performance x100)
+    const handleMouseOver = (e: MouseEvent) => {
       try {
-        const target = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement;
+        const target = e.target as HTMLElement;
         if (!target) return;
 
         const isClickable = 
@@ -112,7 +116,7 @@ export default function CustomCursor() {
           setBgContext("green");
         } else if (
             target.closest('#about') || 
-            target.closest('#services') || // <-- KI CHEOF WACH NTA F SERVICES
+            target.closest('#services') || 
             target.closest('section[class*="services"]') || 
             target.closest('.bg-white')
         ) {
@@ -123,30 +127,30 @@ export default function CustomCursor() {
       } catch (err) {}
     };
 
-    window.addEventListener("mousemove", updateMousePosition);
+    window.addEventListener("mousemove", updateMousePosition, { passive: true });
+    window.addEventListener("mouseover", handleMouseOver, { passive: true });
+    
     return () => {
       window.removeEventListener("mousemove", updateMousePosition);
+      window.removeEventListener("mouseover", handleMouseOver);
       document.body.style.cursor = 'auto';
     };
   }, [cursorX, cursorY, auraMouseX, auraMouseY]);
 
-  // ================= COLOR LOGIC (L'HBAAL HNA) =================
+  // ================= COLOR LOGIC =================
   let auraColor = "#ffffff";
   let cursorColor = "#2EED2E";
   let auraOpacity = 0.15; 
 
   if (bgContext === "darkBlue") {
-    // F Dlam (Gouvernance, Hero...)
     auraColor = "#ffffff"; 
     cursorColor = "#2EED2E"; 
     auraOpacity = 0.1; 
   } else if (bgContext === "white") {
-    // F L'Byed (Services...) -> L'AURA WLLAT DARK BLUE
-    auraColor = "#0044ff"; // Zre9 Ghame9 w n9i bzaf
-    cursorColor = "#020612"; // Diamond K7el bach yban
-    auraOpacity = 0.15; // Zedt chwiya f'dow bach yban zre9 mzyan fo9 byed
+    auraColor = "#0044ff"; 
+    cursorColor = "#020612"; 
+    auraOpacity = 0.15; 
   } else if (bgContext === "green") {
-    // F L'Khedr
     auraColor = "#040c1e"; 
     cursorColor = "#ffffff"; 
     auraOpacity = 0.25; 
@@ -155,7 +159,6 @@ export default function CustomCursor() {
   return (
     <div className={styles.cursorContainer} style={{ pointerEvents: "none" }}>
       
-      {/* 1. L'AURA L'MDECALYA */}
       <motion.div
         className={styles.cursorAura}
         style={{ x: auraX, y: auraY, pointerEvents: "none" }}
@@ -167,14 +170,14 @@ export default function CustomCursor() {
         transition={{ duration: 0.3, ease: "easeInOut" }}
       />
 
-      {/* 2. LE CURSOR 3D FAST */}
       <motion.div
         className={styles.cursor3DWrapper}
         style={{ x: cursorX, y: cursorY, pointerEvents: "none" }}
       >
         <Canvas 
           camera={{ position: [0, 0, 3], fov: 40 }} 
-          gl={{ alpha: true }} 
+          gl={{ alpha: true, powerPreference: "high-performance", antialias: false }} 
+          dpr={[1, 1.5]}
           style={{ pointerEvents: "none" }}
         >
           <ambientLight intensity={2} />
