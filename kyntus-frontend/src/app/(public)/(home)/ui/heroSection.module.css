@@ -1,0 +1,34 @@
+.heroContainer {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #ffffff; /* F l'futur ghan-redouh transparent bach n-baynou ThreeJS lor */
+  padding: 0 5%;
+  position: relative;
+}
+
+.mainTitle {
+  font-size: clamp(3rem, 8vw, 6rem); /* Responsive typography */
+  font-weight: 900;
+  color: #0f172a;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  margin-bottom: 1.5rem;
+  z-index: 2;
+}
+
+.subTitle {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: #64748b;
+  max-width: 600px;
+  margin-bottom: 3rem;
+  z-index: 2;
+}
+
+.actions {
+  z-index: 2;
+}

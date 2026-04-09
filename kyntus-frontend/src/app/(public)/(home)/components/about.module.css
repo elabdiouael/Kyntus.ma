@@ -1,0 +1,240 @@
+.aboutSection { 
+  position: relative; 
+  padding: 10rem 0; 
+  background-color: #020612; 
+  overflow: hidden; 
+  min-height: 100vh; 
+  display: flex; 
+  align-items: center; 
+}
+
+.movingAura { 
+  position: absolute; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%; 
+  background: 
+    radial-gradient(circle at 40% 40%, rgba(46, 237, 46, 0.08) 0%, transparent 40%), 
+    radial-gradient(circle at 60% 60%, rgba(10, 25, 60, 0.5) 0%, transparent 50%); 
+  animation: rotateAura 30s linear infinite; 
+  z-index: 1; 
+  pointer-events: none; 
+}
+
+@keyframes rotateAura { 
+  0% { transform: rotate(0deg) scale(1); } 
+  50% { transform: rotate(180deg) scale(1.1); } 
+  100% { transform: rotate(360deg) scale(1); } 
+}
+
+.techGrid { 
+  position: absolute; 
+  inset: 0; 
+  background-image: 
+    linear-gradient(to right, rgba(46, 237, 46, 0.05) 1px, transparent 1px), 
+    linear-gradient(to bottom, rgba(46, 237, 46, 0.05) 1px, transparent 1px); 
+  background-size: 60px 60px; 
+  z-index: 2; 
+  pointer-events: none; 
+  mask-image: radial-gradient(circle at center, transparent 10%, black 90%); 
+  -webkit-mask-image: radial-gradient(circle at center, transparent 10%, black 90%); 
+}
+
+.darkOverlay { 
+  position: absolute; 
+  inset: 0; 
+  background: radial-gradient(circle at center, rgba(2, 6, 18, 0) 20%, rgba(2, 6, 18, 0.95) 100%); 
+  z-index: 3; 
+  pointer-events: none; 
+}
+
+.container { 
+  position: relative; 
+  z-index: 10; 
+  max-width: 1400px; 
+  width: 100%; 
+  margin: 0 auto; 
+  padding: 0 2rem; 
+}
+
+.grid { 
+  display: grid; 
+  grid-template-columns: 1fr; 
+  gap: 4rem; 
+  align-items: center; 
+}
+
+@media (min-width: 1024px) { 
+  .grid { 
+    grid-template-columns: 1fr 1fr; 
+    gap: 6rem; 
+  } 
+}
+
+/* =========================================
+   CYBER GLASS PANEL & HOVER EFFECT
+   ========================================= */
+.textContent {
+  position: relative;
+  z-index: 20;
+}
+
+.glassPanel {
+  position: relative;
+  background: rgba(4, 12, 30, 0.4); 
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  padding: 4rem 3rem;
+  
+  /* Chkel l'asli: 9nat kbar m9t3in */
+  clip-path: polygon(
+    0 0, 
+    calc(100% - 40px) 0, 
+    100% 40px, 
+    100% 100%, 
+    40px 100%, 
+    0 calc(100% - 40px)
+  );
+  
+  border-left: 1px solid rgba(46, 237, 46, 0.3);
+  border-bottom: 1px solid rgba(46, 237, 46, 0.1);
+  box-shadow: inset 0 0 30px rgba(46, 237, 46, 0.05);
+  
+  /* Transition s7riya bach mli thoveri ytbeddel chkel smooth */
+  transition: clip-path 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              background 0.5s ease, 
+              box-shadow 0.5s ease,
+              transform 0.5s ease;
+}
+
+/* HOVER DYAL L'PANEL: Chkel kaytjmme3, kaywli mghlo9 w kayglowi */
+.glassPanel:hover {
+  clip-path: polygon(
+    0 0, 
+    calc(100% - 15px) 0, 
+    100% 15px, 
+    100% 100%, 
+    15px 100%, 
+    0 calc(100% - 15px)
+  );
+  background: rgba(4, 12, 30, 0.7); 
+  box-shadow: inset 0 0 50px rgba(46, 237, 46, 0.15), 0 10px 30px rgba(0, 0, 0, 0.5);
+  transform: translateY(-5px);
+}
+
+.cyberLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #2EED2E, transparent);
+  box-shadow: 0 0 10px #2EED2E;
+  transition: opacity 0.3s ease;
+}
+
+/* L'kht ki glowi kter mli kat-hoveri 3la l'panel */
+.glassPanel:hover .cyberLine {
+  opacity: 1;
+  box-shadow: 0 0 20px #2EED2E, 0 0 5px #ffffff;
+}
+
+/* =========================================
+   TEXT ANIMATION HELPERS 
+   ========================================= */
+.wordWrapper {
+  overflow: hidden; 
+  display: flex;
+  flex-wrap: wrap;
+  line-height: 1.1;
+  padding-bottom: 5px;
+}
+
+.word {
+  display: inline-block;
+  color: #ffffff;
+  will-change: transform, opacity;
+}
+
+/* =========================================
+   TYPOGRAPHY
+   ========================================= */
+.badge { 
+  display: inline-block; 
+  padding: 0.5rem 1.2rem; 
+  background-color: rgba(46, 237, 46, 0.15); 
+  color: #2EED2E; 
+  font-weight: 800; 
+  border-radius: 100px; 
+  text-transform: uppercase; 
+  font-size: 0.85rem; 
+  letter-spacing: 0.05em;
+  margin-bottom: 2rem; 
+  border: 1px solid rgba(46, 237, 46, 0.3);
+}
+
+.title { 
+  font-size: clamp(2.5rem, 4vw, 4rem); 
+  font-weight: 900; 
+  margin-bottom: 1.5rem; 
+}
+
+.highlight {
+  display: inline-block;
+  color: #2EED2E;
+  text-shadow: 0 0 20px rgba(46, 237, 46, 0.4);
+}
+
+.description { 
+  font-size: 1.15rem; 
+  color: #94a3b8; 
+  line-height: 1.7; 
+  margin-bottom: 3rem; 
+}
+
+.statsContainer { 
+  display: flex; 
+  gap: 4rem; 
+}
+
+.statValue { 
+  font-size: 4rem; 
+  font-weight: 900; 
+  color: #ffffff; 
+  margin: 0; 
+  line-height: 1; 
+  letter-spacing: -0.05em; 
+}
+
+.statLabel { 
+  font-size: 0.9rem; 
+  color: #2EED2E; 
+  font-weight: 800; 
+  text-transform: uppercase; 
+  margin-top: 0.5rem; 
+}
+
+/* =========================================
+   IMAGE GALLERY 
+   ========================================= */
+.imageGallery { 
+  position: relative; 
+  height: 700px; 
+  width: 100%; 
+}
+
+.imgWrapper { 
+  position: absolute; 
+  border-radius: 1.5rem; 
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7); 
+  transition: z-index 0s; 
+}
+
+.imgWrapper:hover { 
+  z-index: 100 !important; 
+}
+
+.img1 { top: 0; right: 0; width: 60%; height: 60%; z-index: 2; }
+.img2 { bottom: 5%; left: 0; width: 55%; height: 50%; z-index: 3; }
+.img3 { bottom: 15%; right: 15%; width: 45%; height: 45%; z-index: 1; }

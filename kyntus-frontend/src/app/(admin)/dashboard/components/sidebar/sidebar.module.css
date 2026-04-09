@@ -1,0 +1,50 @@
+.sidebar {
+  width: 260px;
+  background-color: #0f172a; /* Bleu nuit trééés dark w luxe */
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+}
+
+.logoContainer {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logoAccent {
+  color: #3b82f6; /* Accent bleu */
+}
+
+.navLinks {
+  flex: 1;
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.navItem {
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.navItem:hover, .navItemActive {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border-left: 3px solid #3b82f6;
+}

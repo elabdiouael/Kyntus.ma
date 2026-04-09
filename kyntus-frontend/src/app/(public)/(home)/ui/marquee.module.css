@@ -1,0 +1,35 @@
+.marqueeContainer {
+  width: 100%;
+  overflow: hidden;
+  background-color: #2EED2E; /* Neon Green background */
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba(11, 26, 56, 0.1);
+  border-bottom: 1px solid rgba(11, 26, 56, 0.1);
+  display: flex;
+  white-space: nowrap;
+}
+
+.marqueeTrack {
+  display: flex;
+  align-items: center;
+  width: max-content;
+}
+
+.wordGroup {
+  display: flex;
+  align-items: center;
+}
+
+.word {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #0b1a38; /* Dark Blue text */
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  padding: 0 2rem;
+}
+
+.dot {
+  font-size: 2rem;
+  color: #0b1a38;
+}

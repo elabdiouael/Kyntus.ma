@@ -1,0 +1,218 @@
+/* =========================================
+   MAIN SECTION (M-zeyer chwya db)
+   ========================================= */
+.footerSection {
+  position: relative;
+  background-color: #020612; 
+  /* SEGHRENA L'PADDING BZAF HNA */
+  padding: 4rem 0 1.5rem 0;
+  overflow: hidden;
+  z-index: 20;
+}
+
+.topDivider {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 1px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.glowLine {
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 300px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 68, 255, 0.8), transparent);
+  box-shadow: 0 0 20px rgba(0, 68, 255, 0.6);
+}
+
+/* =========================================
+   L'HBAAL: LUXURY BREATHING BACKGROUND
+   ========================================= */
+.luxuryBackground {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.luxuryAura1, .luxuryAura2 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  animation: breathe 15s infinite alternate ease-in-out;
+}
+
+.luxuryAura1 {
+  width: 600px; height: 600px;
+  background: rgba(0, 68, 255, 0.1); /* Deep Blue */
+  top: -20%; left: -10%;
+}
+
+.luxuryAura2 {
+  width: 500px; height: 500px;
+  background: rgba(46, 237, 46, 0.05); /* Subtle Green */
+  bottom: -10%; right: -5%;
+  animation-delay: -5s;
+}
+
+@keyframes breathe {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.5; }
+  100% { transform: scale(1.3) translate(50px, -50px); opacity: 1; }
+}
+
+.container {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================
+   MACRO LOGO 3D (INTERACTIVE PARTICLES)
+   ========================================= */
+.macroLogoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3rem; /* N9sna margin hna */
+  width: 100%;
+}
+
+.canvasWrapper {
+  width: 100%;
+  height: 280px; /* SEGHRENA HNA BACH MATAKHODCH L'ECRAN KAML */
+  cursor: crosshair; 
+  z-index: 15;
+}
+
+/* =========================================
+   CINEMATIC SLOGAN TEXT
+   ========================================= */
+.sloganContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: -1rem; /* Tla3na slogan chwya lfo9 */
+  z-index: 15;
+}
+
+.sloganWord {
+  display: inline-block;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: #ffffff;
+  font-weight: 300; /* R9iiiq w aneeq */
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  will-change: transform, opacity, filter;
+  /* Loun Khedr f b3d l'kalimat (optional highlight) */
+}
+
+/* =========================================
+   BOTTOM BAR (Minimalism)
+   ========================================= */
+.bottomBar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 15; 
+}
+
+@media (min-width: 768px) {
+  .bottomBar {
+    flex-direction: row;
+  }
+}
+
+.copyright {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+/* SOCIAL ICONS */
+.socials {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.socialBtn {
+  width: 38px; height: 38px; /* Sghernahom chwiya */
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex; align-items: center; justify-content: center;
+  color: #94a3b8;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.socialBtn svg {
+  width: 16px; height: 16px;
+  transition: transform 0.4s ease;
+}
+
+.socialBtn:hover {
+  background: rgba(46, 237, 46, 0.1);
+  border-color: #2EED2E;
+  color: #2EED2E;
+  transform: translateY(-4px);
+  box-shadow: 0 5px 15px rgba(46, 237, 46, 0.2);
+}
+
+.socialBtn:hover svg {
+  transform: scale(1.1);
+}
+
+/* =========================================
+   BACK TO TOP BUTTON
+   ========================================= */
+.backToTopBtn {
+  display: flex; align-items: center; gap: 1rem;
+  background: transparent; border: none; cursor: pointer;
+  color: #ffffff;
+}
+
+.bttText {
+  font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+  transition: color 0.4s ease;
+}
+
+.bttIconWrapper {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex; align-items: center; justify-content: center;
+  color: #ffffff;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bttIconWrapper svg {
+  width: 18px; height: 18px;
+  transition: transform 0.4s ease;
+}
+
+.backToTopBtn:hover .bttText {
+  color: #2EED2E;
+}
+
+.backToTopBtn:hover .bttIconWrapper {
+  background: #2EED2E;
+  border-color: #2EED2E;
+  color: #020612; /* K7el m3a lkhedr */
+  box-shadow: 0 10px 20px rgba(46, 237, 46, 0.3);
+  transform: translateY(-4px);
+}
+
+.backToTopBtn:hover .bttIconWrapper svg {
+  transform: translateY(-2px);
+}

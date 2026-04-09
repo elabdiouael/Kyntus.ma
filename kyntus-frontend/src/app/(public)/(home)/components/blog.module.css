@@ -1,0 +1,204 @@
+/* =========================================
+   MAIN SECTION & THE ABYSS GRADIENT
+   ========================================= */
+.blogSection {
+  position: relative;
+  background-color: #020612; 
+  padding: 8rem 0 12rem 0;
+  overflow: hidden;
+  z-index: 20;
+}
+
+.gradientBg {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, #081b47 0%, #030a1c 40%, #020612 100%);
+  z-index: 1; pointer-events: none;
+}
+
+/* =========================================
+   L'HBAAL: DUAL PLASMA STRIKE (LTR & RTL)
+   ========================================= */
+.lightningContainer {
+  position: absolute;
+  top: -25px; 
+  left: 0;
+  width: 100%;
+  height: 50px;
+  z-index: 50;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.lightningSvgLTR, .lightningSvgRTL {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* RTL khassna n9lbou l'SVG bach yban kayjri b l'3ks nishan */
+.lightningSvgRTL {
+  transform: scaleX(-1);
+}
+
+/* ---------- LTR (Zre9 w Khedr) ---------- */
+.lightningGlowLTR {
+  fill: none;
+  stroke: rgba(0, 68, 255, 0.8);
+  stroke-width: 6;
+  filter: drop-shadow(0 0 15px #0044ff) drop-shadow(0 0 30px #2EED2E);
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: strikeLTR 4s infinite cubic-bezier(0.1, 0.8, 0.1, 1), flicker 4s infinite;
+}
+
+.lightningCoreLTR {
+  fill: none; stroke: #ffffff; stroke-width: 2; filter: drop-shadow(0 0 5px #ffffff);
+  stroke-dasharray: 2000; stroke-dashoffset: 2000;
+  animation: strikeLTR 4s infinite cubic-bezier(0.1, 0.8, 0.1, 1), flicker 4s infinite;
+}
+
+/* ---------- RTL (Khedr w Zre9 M9loub) ---------- */
+.lightningGlowRTL {
+  fill: none;
+  stroke: rgba(46, 237, 46, 0.8); /* Berrg Khedr */
+  stroke-width: 6;
+  filter: drop-shadow(0 0 15px #2EED2E) drop-shadow(0 0 30px #0044ff);
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  /* L'Animation mdecalya bach ytla9aw f lwest! */
+  animation: strikeRTL 5s infinite cubic-bezier(0.1, 0.8, 0.1, 1), flicker 5s infinite;
+  animation-delay: 1.5s; 
+}
+
+.lightningCoreRTL {
+  fill: none; stroke: #ffffff; stroke-width: 2; filter: drop-shadow(0 0 5px #ffffff);
+  stroke-dasharray: 2000; stroke-dashoffset: 2000;
+  animation: strikeRTL 5s infinite cubic-bezier(0.1, 0.8, 0.1, 1), flicker 5s infinite;
+  animation-delay: 1.5s;
+}
+
+/* Animations d'l'Strike */
+@keyframes strikeLTR {
+  0% { stroke-dashoffset: 2000; }
+  10% { stroke-dashoffset: 0; }
+  20% { stroke-dashoffset: -2000; }
+  100% { stroke-dashoffset: -2000; }
+}
+
+@keyframes strikeRTL {
+  0% { stroke-dashoffset: 2000; }
+  10% { stroke-dashoffset: 0; }
+  20% { stroke-dashoffset: -2000; }
+  100% { stroke-dashoffset: -2000; }
+}
+
+@keyframes flicker {
+  0%, 8%, 12%, 100% { opacity: 0; }
+  9% { opacity: 1; }
+  10% { opacity: 0.2; }
+  11% { opacity: 1; }
+}
+
+/* =========================================
+   NEURAL NETWORK BACKGROUND (ALIVE)
+   ========================================= */
+.neuralNetworkContainer {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden;
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+.floatingIdea1, .floatingIdea2, .floatingIdea3 {
+  position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.4;
+  animation: floatOrb 20s infinite ease-in-out alternate;
+}
+
+.floatingIdea1 { width: 500px; height: 500px; background: rgba(0, 68, 255, 0.25); top: -10%; left: 10%; }
+.floatingIdea2 { width: 400px; height: 400px; background: rgba(46, 237, 46, 0.15); bottom: 20%; right: -5%; animation-delay: -5s; animation-duration: 25s; }
+.floatingIdea3 { width: 600px; height: 600px; background: rgba(0, 100, 255, 0.15); top: 40%; left: 50%; animation-delay: -10s; animation-duration: 30s; }
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(100px, 80px) scale(1.2); }
+  100% { transform: translate(-80px, 150px) scale(0.8); }
+}
+
+.dataStreamsWrapper { position: absolute; inset: 0; width: 100%; height: 100%; }
+.dataLine { position: absolute; top: 0; width: 1px; height: 100%; background: rgba(255, 255, 255, 0.03); }
+.dataLine::after {
+  content: ''; position: absolute; top: -50%; left: -1px; width: 3px; height: 20%;
+  background: linear-gradient(to bottom, transparent, rgba(46, 237, 46, 0.8), transparent);
+  animation: dataDrop 6s infinite linear; filter: blur(2px);
+}
+.dataLine:nth-child(even)::after {
+  background: linear-gradient(to bottom, transparent, rgba(0, 68, 255, 0.8), transparent);
+  animation-duration: 8s; height: 30%;
+}
+@keyframes dataDrop { 0% { top: -50%; opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { top: 150%; opacity: 0; } }
+
+.container { position: relative; max-width: 1400px; margin: 0 auto; padding: 0 2rem; z-index: 10; }
+
+/* =========================================
+   TEXT ANIMATION ENGINES
+   ========================================= */
+.cyberTextWrapper { display: inline-flex; flex-wrap: wrap; gap: 0.1em; justify-content: center; }
+.wordMask { display: inline-block; padding-bottom: 0.1em; padding-right: 0.2em; vertical-align: top; }
+.wordSpan { display: inline-block; color: #ffffff; will-change: transform, opacity, filter; }
+.shimmerWrapper { position: relative; display: inline-block; }
+.shimmerHighlight { background: linear-gradient(110deg, #1ab51a 0%, #2EED2E 30%, #ffffff 50%, #2EED2E 70%, #1ab51a 100%); background-size: 200% auto; -webkit-text-fill-color: transparent; background-clip: text; -webkit-background-clip: text; animation: shine 3s linear infinite; text-shadow: 0 0 30px rgba(46, 237, 46, 0.4); }
+@keyframes shine { to { background-position: 200% center; } }
+
+/* HEADER */
+.header { text-align: center; max-width: 800px; margin: 0 auto 5rem auto; }
+.badge { display: inline-block; padding: 0.5rem 1.2rem; background-color: rgba(46, 237, 46, 0.15); color: #2EED2E; font-weight: 800; border-radius: 100px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; margin-bottom: 1.5rem; border: 1px solid rgba(46, 237, 46, 0.3); }
+.title { font-size: clamp(3rem, 5vw, 4.5rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+.subtitle { font-size: 1.15rem; color: #94a3b8; line-height: 1.6; }
+
+/* =========================================
+   BLOG GRID & CARDS
+   ========================================= */
+.blogGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; margin-bottom: 5rem; }
+
+.blogCard {
+  position: relative; background: rgba(10, 15, 30, 0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); cursor: pointer; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.blogCard:hover { background: rgba(15, 25, 45, 0.8); border-color: rgba(46, 237, 46, 0.3); box-shadow: 0 30px 60px rgba(0, 68, 255, 0.3), 0 0 20px rgba(46, 237, 46, 0.1); transform: translateY(-10px); }
+
+.cardBorderGlow { position: absolute; inset: -1px; border-radius: 24px; background: linear-gradient(180deg, rgba(46, 237, 46, 0.5), transparent, rgba(0, 68, 255, 0.5)); z-index: 1; opacity: 0; transition: opacity 0.5s ease; filter: blur(8px); pointer-events: none; }
+.blogCard:hover .cardBorderGlow { opacity: 1; }
+
+.imageWrapper { position: relative; width: 100%; height: 240px; overflow: hidden; z-index: 2; }
+.postImg { width: 100%; height: 100%; object-fit: cover; filter: grayscale(80%) brightness(0.7); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.blogCard:hover .postImg { filter: grayscale(0%) brightness(1.1); transform: scale(1.1); }
+.imageOverlay { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(to top, rgba(10, 15, 30, 1) 0%, transparent 60%); }
+
+.categoryBadge { position: absolute; top: 1.5rem; left: 1.5rem; z-index: 4; background: rgba(46, 237, 46, 0.2); backdrop-filter: blur(10px); color: #2EED2E; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.4rem 1rem; border-radius: 100px; border: 1px solid rgba(46, 237, 46, 0.4); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+
+.postContent { position: relative; z-index: 5; padding: 0 2.5rem 2.5rem 2.5rem; display: flex; flex-direction: column; flex-grow: 1; }
+.postDate { font-size: 0.85rem; color: #2EED2E; font-weight: 600; margin-bottom: 1rem; opacity: 0.8; }
+.postTitle { font-size: 1.6rem; font-weight: 800; color: #ffffff; line-height: 1.3; margin-bottom: 1rem; transition: color 0.4s ease; }
+.blogCard:hover .postTitle { color: #2EED2E; }
+.postExcerpt { font-size: 1rem; color: #94a3b8; line-height: 1.6; margin-bottom: 2rem; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+.readMoreBtn { display: flex; align-items: center; gap: 0.5rem; color: #0044ff; font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.4s ease; }
+.arrowIcon { width: 20px; height: 20px; transition: transform 0.4s ease; }
+.blogCard:hover .readMoreBtn { color: #2EED2E; }
+.blogCard:hover .arrowIcon { transform: translateX(10px); }
+
+/* =========================================
+   "EXPLORE ALL ARTICLES" BUTTON
+   ========================================= */
+.actionContainer { display: flex; justify-content: center; width: 100%; }
+.viewAllBtn { position: relative; display: inline-flex; align-items: center; gap: 1rem; padding: 1.2rem 3rem; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 100px; color: #ffffff; text-decoration: none; overflow: hidden; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 10; }
+.btnText { font-size: 1.1rem; font-weight: 800; letter-spacing: 0.05em; z-index: 2; position: relative; }
+.btnIcon { width: 24px; height: 24px; z-index: 2; position: relative; transition: transform 0.4s ease; }
+.btnGlow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 0; height: 0; border-radius: 50%; background: radial-gradient(circle, rgba(46, 237, 46, 0.8) 0%, rgba(0, 68, 255, 0.8) 100%); z-index: 1; transition: width 0.6s ease, height 0.6s ease; filter: blur(10px); opacity: 0; }
+.viewAllBtn:hover { border-color: rgba(46, 237, 46, 0.8); box-shadow: 0 15px 30px rgba(46, 237, 46, 0.2); transform: translateY(-5px); }
+.viewAllBtn:hover .btnGlow { width: 300px; height: 300px; opacity: 1; }
+.viewAllBtn:hover .btnText, .viewAllBtn:hover .btnIcon { color: #020612; }
+.viewAllBtn:hover .btnIcon { transform: translateX(10px); }

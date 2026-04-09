@@ -1,0 +1,27 @@
+.cardWrapper {
+  position: relative;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(11, 26, 56, 0.1);
+  background-color: #ffffff;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.glowSpotlight {
+  pointer-events: none;
+  position: absolute;
+  top: -300px;
+  left: -300px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(46, 237, 46, 0.15) 0%, transparent 50%);
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.cardContent {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  padding: 2.5rem;
+}

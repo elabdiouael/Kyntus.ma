@@ -1,0 +1,41 @@
+/* FORCE NO POINTER EVENTS ON EVERYTHING HERE */
+.cursorContainer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none !important;
+  z-index: 99999;
+  overflow: hidden;
+}
+
+.cursorContainer * {
+  pointer-events: none !important;
+}
+
+/* L'ADWAW L'MJEHDIN (N9essna mn size w l'blur) */
+.cursorAura {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 250px; /* KANT 400px! Db wllat 250px mwezna */
+  height: 250px; /* KANT 400px! */
+  border-radius: 50%;
+  filter: blur(50px); /* KANT 70px! Db m-centriya ktr */
+  will-change: transform, opacity, background-color, scale;
+  pointer-events: none !important;
+  z-index: 0;
+}
+
+/* L'BOÎTE DYAL THREE.JS */
+.cursor3DWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px; 
+  height: 100px;
+  will-change: transform;
+  pointer-events: none !important;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

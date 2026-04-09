@@ -1,0 +1,48 @@
+.buttonWrapper {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.buttonInner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2.5rem;
+  border-radius: 9999px;
+  background-color: #2EED2E; /* Neon Green */
+  color: #0b1a38; /* Dark Blue */
+  font-weight: 600;
+  font-size: 1.125rem;
+  overflow: hidden;
+  border: 2px solid #2EED2E;
+}
+
+.text, .iconWrapper {
+  position: relative;
+  z-index: 10;
+  transition: color 0.4s ease;
+}
+
+.buttonInner:hover .text, .buttonInner:hover .iconWrapper {
+  color: #ffffff; /* Turns white on hover */
+}
+
+.icon {
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.buttonInner:hover .icon {
+  transform: translateX(4px) rotate(-45deg);
+}
+
+.fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0b1a38;
+  z-index: 1;
+}

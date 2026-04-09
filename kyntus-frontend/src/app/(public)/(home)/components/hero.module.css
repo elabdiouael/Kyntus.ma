@@ -1,0 +1,154 @@
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; 
+  overflow: hidden;
+  background-color: #020612;
+}
+
+.videoWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  will-change: transform, opacity, filter;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.05);
+  
+  /* L'HBAAL JDID: Zidna f D-Dow (Brightness 1.2 = +20%) */
+  /* Contrast 1.05 ghir bach l'video may-tbhatch mli kaytzad fiha d-dow */
+  filter: brightness(1.2) contrast(1.05);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  
+  /* KHFFEFNA L'K7EL BZAAAAAF 🔥 */
+  /* mn 0.98 rje3 0.75 f lisser (bach t9ra lktaba), w ky-ghber bzrba f l'imn (transparent) */
+  background: linear-gradient(to right, rgba(2, 6, 18, 0.75) 0%, rgba(2, 6, 18, 0.2) 40%, transparent 80%);
+  z-index: 1;
+}
+
+.container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  padding-left: 8%; 
+  perspective: 1000px;
+}
+
+.content {
+  text-align: left;
+  max-width: 800px; 
+}
+
+/* ==========================================
+   MEGA TITLE & GREEN WATER FILL EFFECT
+   ========================================== */
+.megaTitle {
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  cursor: default;
+  will-change: transform, filter;
+  --text-fill-color: #2EED2E;
+  --text-glow-color: rgba(46, 237, 46, 0.8);
+  --text-gradient-stop-color: #1ab51a;
+  --text-stroke-color: rgba(255, 255, 255, 0.4);
+}
+
+.waterLetter {
+  display: inline-block;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+  background-image: linear-gradient(to top, var(--text-fill-color) 0%, var(--text-gradient-stop-color) 40%, transparent 45%);
+  background-size: 100% 250%; 
+  background-position: 0% 0%; 
+  -webkit-background-clip: text;
+  background-clip: text;
+  will-change: background-position, -webkit-text-stroke;
+}
+
+.fillAnimation {
+  animation: waterRise 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes waterRise {
+  0% { 
+    background-position: 0% 0%; 
+    -webkit-text-stroke: 1px var(--text-stroke-color);
+  }
+  100% { 
+    background-position: 0% 100%; 
+    -webkit-text-stroke: 0px rgba(255, 255, 255, 0); 
+  }
+}
+
+.cursor {
+  display: inline-block;
+  font-weight: 300;
+  margin-left: 5px;
+  color: var(--text-fill-color);
+  text-shadow: 0 0 15px var(--text-glow-color);
+  vertical-align: baseline;
+}
+
+/* ==========================================
+   DESCRIPTION & SCROLL INDICATOR
+   ========================================= */
+.description {
+  font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+  color: #cbd5e1;
+  line-height: 1.7;
+  max-width: 550px;
+  margin-bottom: 3rem;
+  font-weight: 400;
+}
+
+.scrollIndicator {
+  position: absolute;
+  bottom: 2.5rem; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  z-index: 10;
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.mouseShape {
+  width: 28px;
+  height: 48px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  padding-top: 8px; 
+}
+
+.mouseWheel {
+  width: 4px;
+  height: 8px;
+  background: #2EED2E;
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(46, 237, 46, 0.8);
+}
+
+.scrollText {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #94a3b8;
+  font-weight: 600;
+}

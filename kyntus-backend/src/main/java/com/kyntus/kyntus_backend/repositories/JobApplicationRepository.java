@@ -1,0 +1,11 @@
+package com.kyntus.kyntus_backend.repositories;
+
+import com.kyntus.kyntus_backend.entities.JobApplication;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+
+@Repository
+public interface JobApplicationRepository extends JpaRepository<JobApplication, Long> {
+    List<JobApplication> findByJobOfferId(Long jobOfferId); // Bach njiboo les candidatures dyal offre specifique
+}

@@ -1,0 +1,125 @@
+.perspectiveWrapper {
+  width: 100%;
+  height: 100%;
+  perspective: 1200px; /* Profondeur 3D mjehda */
+}
+
+.royalCard {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 1.5rem;
+  background-color: rgba(4, 12, 30, 0.5); /* K7el chffaf */
+  padding: 8px; /* Tissa3 bin image w l'border */
+  cursor: none; /* Khssha l'Custom Cursor dyalk hna! */
+  transform-origin: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* =========================================
+   1. CYBER CORNERS (Zekhraffa 3D)
+   ========================================= */
+.corner {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: 2px solid transparent;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 20;
+  transform: translateZ(30px); /* Khrjin l'9ddam f 3D */
+  opacity: 0.5;
+}
+
+.topLeft { top: 15px; left: 15px; border-top-color: #2EED2E; border-left-color: #2EED2E; border-top-left-radius: 0.8rem; }
+.topRight { top: 15px; right: 15px; border-top-color: #2EED2E; border-right-color: #2EED2E; border-top-right-radius: 0.8rem; }
+.bottomLeft { bottom: 15px; left: 15px; border-bottom-color: #2EED2E; border-left-color: #2EED2E; border-bottom-left-radius: 0.8rem; }
+.bottomRight { bottom: 15px; right: 15px; border-bottom-color: #2EED2E; border-right-color: #2EED2E; border-bottom-right-radius: 0.8rem; }
+
+.royalCard:hover .corner {
+  width: 45px;
+  height: 45px;
+  opacity: 1;
+  /* Glow mjehed mli kat-hoveri */
+  box-shadow: 0 0 15px rgba(46, 237, 46, 0.6) inset;
+}
+
+.royalCard:hover .topLeft { top: -5px; left: -5px; }
+.royalCard:hover .topRight { top: -5px; right: -5px; }
+.royalCard:hover .bottomLeft { bottom: -5px; left: -5px; }
+.royalCard:hover .bottomRight { bottom: -5px; right: -5px; }
+
+/* =========================================
+   2. L'IMAGE & SCANLINES
+   ========================================= */
+.imageFrame {
+  width: 100%;
+  height: 100%;
+  border-radius: calc(1.5rem - 8px);
+  overflow: hidden;
+  position: relative;
+  transform: translateZ(10px); /* Tsswira dakha l'dakhél chwiya */
+}
+
+.image { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  filter: grayscale(40%) contrast(1.1); /* Katban Tech chwiya */
+}
+
+.royalCard:hover .image { 
+  transform: scale(1.1); 
+  filter: grayscale(0%) contrast(1.1); /* Loun kayrj3 mjehed f l'hover */
+}
+
+.cyberOverlay {
+  position: absolute;
+  inset: 0;
+  /* Scanlines Khtouta (TV effect l'9dim wla Matrix) */
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  opacity: 0.3;
+  z-index: 5;
+  transition: opacity 0.3s ease;
+}
+
+.royalCard:hover .cyberOverlay {
+  opacity: 0.1; /* Scanlines kyn9sso bach tsswira tban */
+}
+
+/* =========================================
+   3. MAGNETIC MOUSE GLOW
+   ========================================= */
+.mouseGlow {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none; /* Bach mayblckich l'clicks */
+  mix-blend-mode: screen; /* Kaydwi tsswira lta7t */
+  transform: translateZ(40px); /* Ddow kayflotti fo9 kolchi! */
+  border-radius: 1.5rem;
+}
+
+/* =========================================
+   4. BORDER GLOW MN LORR
+   ========================================= */
+.borderGlow {
+  position: absolute;
+  inset: -1px;
+  border-radius: 1.5rem;
+  background: linear-gradient(45deg, rgba(46, 237, 46, 0), rgba(46, 237, 46, 0.5), rgba(46, 237, 46, 0));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  filter: blur(10px);
+}
+
+.royalCard:hover .borderGlow {
+  opacity: 1; /* L'Card kamla katch3el mn lorr f l'hover */
+}
