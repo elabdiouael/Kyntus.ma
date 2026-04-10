@@ -3,46 +3,40 @@ package com.kyntus.kyntus_backend.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "job_offers")
+@Table(name = "job_applications")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class JobOffer {
+public class JobApplication {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String title;
-
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String description;
-
-    @Column(columnDefinition = "TEXT")
-    private String requirements;
-
-    private String location;
+    private String fullName;
 
     @Column(nullable = false)
-    private Boolean isActive;
+    private String email;
+
+    private String phone;
+
+    @Column(nullable = false)
+    private String resumeUrl;
 
     @Column(updatable = false)
-    private LocalDateTime postedAt;
+    private LocalDateTime appliedAt;
 
-    // Relation m3a les candidatures
-    @OneToMany(mappedBy = "jobOffer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<JobApplication> applications;
+    // L'UPDATE HNA: nullable = true (Candidature spontanée awla l offre specifique)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "job_offer_id", nullable = true)
+    private JobOffer jobOffer;
 
     @PrePersist
     protected void onCreate() {
-        this.postedAt = LocalDateTime.now();
-        if (this.isActive == null) {
-            this.isActive = true;
-        }
+        this.appliedAt = LocalDateTime.now();
     }
 }

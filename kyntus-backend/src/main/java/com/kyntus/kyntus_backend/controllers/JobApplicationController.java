@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,9 +27,23 @@ public class JobApplicationController {
         return ResponseEntity.ok(jobApplicationService.getApplicationsByOfferId(offerId));
     }
 
-    @PostMapping("/offer/{offerId}")
-    public ResponseEntity<JobApplication> createApplication(@PathVariable Long offerId, @RequestBody JobApplication application) {
-        return new ResponseEntity<>(jobApplicationService.createApplication(offerId, application), HttpStatus.CREATED);
+    // L'UPDATE L'KBER: Endpoint jdid kay-supporter l'fichiers w offerId optionnel
+    @PostMapping(value = "/apply", consumes = {"multipart/form-data"})
+    public ResponseEntity<JobApplication> applyWithCv(
+            @RequestParam(value = "offerId", required = false) Long offerId,
+            @RequestParam("fullName") String fullName,
+            @RequestParam("email") String email,
+            @RequestParam(value = "phone", required = false) String phone,
+            @RequestParam("cvFile") MultipartFile cvFile
+    ) {
+        // N-bniw l'objet manuellement mn les params
+        JobApplication application = JobApplication.builder()
+                .fullName(fullName)
+                .email(email)
+                .phone(phone)
+                .build();
+
+        return new ResponseEntity<>(jobApplicationService.createApplication(offerId, application, cvFile), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
