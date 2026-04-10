@@ -134,9 +134,10 @@ export default function Gouvernance() {
 
   const franceTeam = [
     { name: "Fabrice de SEZE", role1: "Chairman", role2: "", img: "Kyntus_Fabriece-de-SEZE", linkedin: "https://www.linkedin.com/in/fabrice-d-98597aa/" },
+    { name: "Younès HERRAS", role1: "General Manager", role2: "Purchasing Manager", img: "Kyntus_Younes-HERRAS", linkedin: "https://www.linkedin.com/in/younes-herras-9b2244360/" },
+
     { name: "Franck BOUETARD", role1: "Chief Executive Officer", role2: "", img: "Photo-Franck-Bouetard", linkedin: "https://www.linkedin.com/in/franck-bouetard/" },
     { name: "Abderrahim SADIK", role1: "General Manager", role2: "Technical Manager", img: "Kyntus_Abder", linkedin: "https://www.linkedin.com/in/sadik-abderrahim-a31365160/" },
-    { name: "Younès HERRAS", role1: "General Manager", role2: "Purchasing Manager", img: "Kyntus_Younes-HERRAS", linkedin: "https://www.linkedin.com/in/younes-herras-9b2244360/" },
     { name: "Laurent TRICARD", role1: "General Manager", role2: "Sales Manager", img: "Kyntus_Laurent-TRICARD", linkedin: "https://www.linkedin.com/in/laurent-tricard-b53352134/" },
     { name: "Vincent TOSTAIN", role1: "General Manager, ATS", role2: "", img: "Kyntus_Vincent-Tostain", linkedin: "https://www.linkedin.com/in/vincent-tostain-4ab905114/" },
     { name: "Fintan SHORTALL", role1: "Chairman of Entegro", role2: "", img: "Fintan", linkedin: "https://www.linkedin.com/in/fintan-shortall-44958a1a/" },
