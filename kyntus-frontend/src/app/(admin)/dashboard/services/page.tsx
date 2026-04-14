@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { fetchApi } from '@/lib/api';
-import { motion, AnimatePresence } from 'framer-motion';
+// 🚨 Zedt Variants hna
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import styles from './services.module.css';
 
 interface Service { id: number; title: string; description: string; createdAt: string; }
@@ -47,8 +48,9 @@ export default function ServicesPage() {
     }
   };
 
-  const containerVars = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
-  const rowVars = { hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 100 } } };
+  // 🚨 Typeyit hadou b Variants
+  const containerVars: Variants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
+  const rowVars: Variants = { hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 100 } } };
 
   return (
     <motion.div className={styles.container} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
@@ -82,7 +84,6 @@ export default function ServicesPage() {
                   <td><strong style={{ color: '#ffffff', fontSize: '1.05rem' }}>{service.title}</strong></td>
                   <td style={{ color: 'rgba(255,255,255,0.6)' }}>{service.description.length > 60 ? service.description.substring(0, 60) + '...' : service.description}</td>
                   <td style={{ textAlign: 'right', display: 'flex', justifyContent: 'flex-end' }}>
-                    {/* SVGs in place of Emojis */}
                     <button className={`${styles.actionBtn} ${styles.edit}`} onClick={() => openModal(service)}>
                       <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                     </button>
@@ -100,7 +101,6 @@ export default function ServicesPage() {
         )}
       </div>
 
-      {/* MODAL */}
       <AnimatePresence>
         {isModalOpen && (
           <motion.div className={styles.modalOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
