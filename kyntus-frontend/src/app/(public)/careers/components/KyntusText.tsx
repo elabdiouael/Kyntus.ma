@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+// Zedt lik l'import dyal Variants
+import { motion, Variants } from "framer-motion";
 import { useState, useEffect } from "react";
 
 interface Props {
@@ -12,8 +13,8 @@ interface Props {
 export default function KyntusText({ text, className, delay = 0 }: Props) {
   const [isDoneTyping, setIsDoneTyping] = useState(false);
 
-  // ── ANIMATION 1: TYPEWRITER ──
-  const container = {
+  // T7addat b Variants hna
+  const container: Variants = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
       opacity: 1,
@@ -21,7 +22,7 @@ export default function KyntusText({ text, className, delay = 0 }: Props) {
     }),
   };
 
-  const child = {
+  const child: Variants = {
     visible: {
       opacity: 1,
       y: 0,
@@ -40,11 +41,10 @@ export default function KyntusText({ text, className, delay = 0 }: Props) {
       onAnimationComplete={() => setIsDoneTyping(true)}
       style={{ display: "inline-block" }}
     >
-      {/* ── ANIMATION 2 & 3: FLOAT & HOVER ── */}
       <motion.span
         style={{ display: "inline-block" }}
         animate={isDoneTyping ? {
-          y: [0, -5, 0], // Subtle floating
+          y: [0, -5, 0], 
         } : {}}
         transition={{
           duration: 3,
@@ -53,7 +53,7 @@ export default function KyntusText({ text, className, delay = 0 }: Props) {
         }}
         whileHover={{
           scale: 1.05,
-          color: "#00ffa3", // Kyntus Green
+          color: "#00ffa3", 
           textShadow: "0 0 15px rgba(0, 255, 163, 0.6)",
           transition: { duration: 0.2 }
         }}

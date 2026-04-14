@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, ChangeEvent, FormEvent, useCallback, memo, useEffect, MouseEvent } from "react";
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
+// Zedt Variants hna lfo9
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, Variants } from "framer-motion";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 import styles from "../careers.module.css";
@@ -9,26 +10,26 @@ import CareersBootLoader from "../threejs/CareersBootLoader";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8081';
 
-// Fallback image bch ila nsaw w ma-updawch tswira
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80";
 
-const modalFlip = {
+// T7addou les types hna
+const modalFlip: Variants = {
   hidden: { opacity: 0, rotateX: -60, scale: 0.7, y: 150, z: -800 },
   visible: { opacity: 1, rotateX: 0, scale: 1, y: 0, z: 0, transition: { type: "spring", stiffness: 90, damping: 20, mass: 1.2 } },
   exit: { opacity: 0, rotateX: 60, scale: 0.7, y: -150, z: -800, transition: { duration: 0.4 } }
 };
 
-const bentoContainer = {
+const bentoContainer: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.3 } }
 };
 
-const bentoBlock = {
+const bentoBlock: Variants = {
   hidden: { opacity: 0, z: -150, scale: 0.8 },
   visible: { opacity: 1, z: 0, scale: 1, transition: { type: "spring", stiffness: 120, damping: 15 } }
 };
 
-const decodeTextVariants = {
+const decodeTextVariants: Variants = {
   hidden: { opacity: 0, filter: "blur(10px)", y: 10 },
   visible: { opacity: 1, filter: "blur(0px)", y: 0, transition: { type: "spring", stiffness: 200, damping: 20 } }
 };
@@ -65,7 +66,6 @@ export default function JobApplicationModal({ offer, onClose }: { offer: any, on
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isBooting, setIsBooting] = useState(true); 
 
-  // L'URL dynamique li katji mn l'backend
   const imageUrl = offer.imageUrl ? `${API_BASE_URL}${offer.imageUrl}` : DEFAULT_IMAGE;
 
   const mouseX = useMotionValue(0);
@@ -150,7 +150,6 @@ export default function JobApplicationModal({ offer, onClose }: { offer: any, on
 
               <motion.div className={styles.explodedGrid} variants={bentoContainer} initial="hidden" animate="visible" style={{ transformStyle: "preserve-3d" }}>
                 
-                {/* BLOCK 1: Hero */}
                 <motion.div className={`${styles.explodedBox} ${styles.expHero}`} variants={bentoBlock} style={{ transform: "translateZ(-40px)" }}>
                   <img src={imageUrl} alt="Role" className={styles.expHeroImg} style={{ objectFit: 'cover' }} />
                   <div className={styles.expHeroOverlay} />
@@ -169,7 +168,6 @@ export default function JobApplicationModal({ offer, onClose }: { offer: any, on
                   </div>
                 </motion.div>
 
-                {/* BLOCK 2: Description */}
                 <motion.div className={`${styles.explodedBox} ${styles.expDesc}`} variants={bentoBlock} style={{ transform: "translateZ(10px)" }}>
                   <div className={styles.expSectionTitle}>Mission Protocol</div>
                   <motion.p className={styles.expText} variants={bentoContainer}>
@@ -177,7 +175,6 @@ export default function JobApplicationModal({ offer, onClose }: { offer: any, on
                   </motion.p>
                 </motion.div>
 
-                {/* BLOCK 3: Requirements */}
                 {offer.requirements && (
                   <motion.div className={`${styles.explodedBox} ${styles.expReq}`} variants={bentoBlock} style={{ transform: "translateZ(50px)" }}>
                     <div className={styles.expSectionTitle}>Sys Requirements</div>
@@ -187,7 +184,6 @@ export default function JobApplicationModal({ offer, onClose }: { offer: any, on
                   </motion.div>
                 )}
 
-                {/* BLOCK 4: Terminal Form */}
                 <motion.div className={`${styles.explodedBox} ${styles.expForm}`} variants={bentoBlock} style={{ transform: "translateZ(80px)" }}>
                   <div className={styles.formHeader}>
                     <motion.h3 className={styles.expFormTitle} variants={bentoContainer}>

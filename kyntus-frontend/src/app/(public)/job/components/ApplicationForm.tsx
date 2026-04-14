@@ -1,14 +1,15 @@
 "use client";
 
 import React, { useState, ChangeEvent, FormEvent, useRef, useEffect, useCallback, useMemo, memo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+// 🚨 Zedt Variants hna f l'import
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import styles from "../job.module.css";
 
-// ... (Kheli TypewriterText w CyberInput kima homa, rani khlithom fel code) ...
 const TypewriterText = memo(({ text, delayOffset = 0, className = "", cursor = true }: { text: string; delayOffset?: number; className?: string; cursor?: boolean; }) => {
-  const containerVariants = useMemo(() => ({ visible: { transition: { staggerChildren: 0.03, delayChildren: delayOffset } } }), [delayOffset]);
-  const charVariants = useMemo(() => ({ hidden: { opacity: 0, display: "none" }, visible: { opacity: 1, display: "inline-block", color: "#ffffff" } }), []);
-  const cursorVariants = useMemo(() => ({ hidden: { opacity: 0 }, visible: { opacity: [0, 1, 0], transition: { repeat: Infinity, duration: 0.8, ease: "linear" } } }), []);
+  // 🚨 Zedt <Variants> l' useMemo bach Vercel maybkich
+  const containerVariants = useMemo<Variants>(() => ({ visible: { transition: { staggerChildren: 0.03, delayChildren: delayOffset } } }), [delayOffset]);
+  const charVariants = useMemo<Variants>(() => ({ hidden: { opacity: 0, display: "none" }, visible: { opacity: 1, display: "inline-block", color: "#ffffff" } }), []);
+  const cursorVariants = useMemo<Variants>(() => ({ hidden: { opacity: 0 }, visible: { opacity: [0, 1, 0], transition: { repeat: Infinity, duration: 0.8, ease: "linear" } } }), []);
 
   return (
     <motion.span className={className} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-10%" }} variants={containerVariants}>
@@ -46,13 +47,11 @@ export default function ApplicationForm() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   
-  // 🚨 HNA ZEDNA STATE BACH N-STOCKIW LES OFFRES D'EMPLOI LI JABNA MN BACKEND
   const [activeOffers, setActiveOffers] = useState<{id: number, title: string}[]>([]);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // 🚨 FETCH ACTUAL OFFERS FROM BACKEND 🚨
   useEffect(() => {
     fetch("http://localhost:8081/api/job-offers/active")
       .then(res => res.json())
@@ -82,7 +81,6 @@ export default function ApplicationForm() {
     if (formData.phone) data.append("phone", formData.phone); 
     data.append("cvFile", formData.file);
 
-    // 🚨 LOGIC JDIDA: Ila khtar offre kyna, kan-sayfto l'ID dyalha. Ila khtar "Spontanée", makansayftouhch.
     const selectedOffer = activeOffers.find(o => o.title === formData.position);
     if (selectedOffer) {
       data.append("offerId", selectedOffer.id.toString());
@@ -95,7 +93,8 @@ export default function ApplicationForm() {
     } catch { setStatus("error"); }
   };
 
-  const itemVar = useMemo(() => ({ hidden: { opacity: 0, y: 16 }, visible: (i: number) => ({ opacity: 1, y: 0, transition: { duration: 0.55, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] } }) }), []);
+  // 🚨 Zedt <Variants> l' useMemo hna bach ydowezha Vercel f l' balise ta7t
+  const itemVar = useMemo<Variants>(() => ({ hidden: { opacity: 0, y: 16 }, visible: (i: number) => ({ opacity: 1, y: 0, transition: { duration: 0.55, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] } }) }), []);
 
   return (
     <section className={styles.formSection} style={{ position: "relative", width: "100%", maxWidth: "750px", zIndex: 50 }}>
@@ -146,7 +145,6 @@ export default function ApplicationForm() {
                           initial={{ opacity: 0, y: -5, scaleY: 0.9 }} animate={{ opacity: 1, y: 0, scaleY: 1 }} exit={{ opacity: 0, y: -5, scaleY: 0.9 }} transition={{ duration: 0.2 }}
                           style={{ position: "absolute", top: "calc(100% + 8px)", left: 0, right: 0, zIndex: 100, background: "rgba(0, 15, 50, 0.98)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "8px", padding: "0.4rem", listStyle: "none", margin: 0, transformOrigin: "top", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}
                         >
-                          {/* 🚨 HNA MAPPIYNA LES OFFRES + OPTION "Candidature Spontanée" 🚨 */}
                           {activeOffers.map((offer) => (
                             <motion.li key={offer.id} onClick={() => selectRole(offer.title)} whileHover={{ x: 5, color: "#ffffff" }} style={{ fontFamily: "monospace", fontSize: "0.9rem", color: "rgba(255,255,255,0.7)", padding: "0.8rem 1rem", cursor: "pointer", transition: "color 0.2s" }}>
                               {offer.title}
