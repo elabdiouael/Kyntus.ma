@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+// 🚨 Zedt TargetAndTransition hna f l'import
+import { motion, Variants, TargetAndTransition } from "framer-motion";
 import { ReactNode } from "react";
 
 export default function InteractiveElement({ children, type = "float" }: { children: ReactNode, type?: "float" | "pulse" }) {
@@ -10,8 +11,8 @@ export default function InteractiveElement({ children, type = "float" }: { child
     pulse: { scale: [1, 1.02, 1], filter: ["brightness(1)", "brightness(1.2)", "brightness(1)"], transition: { duration: 3, repeat: Infinity, ease: "easeInOut" } }
   };
 
-  // L'Animation mli t-hovri
-  const hoverVariants = {
+  // 🚨 Typeyit had l'objet b TargetAndTransition
+  const hoverVariants: TargetAndTransition = {
     scale: 1.02,
     y: -5,
     filter: "brightness(1.1) drop-shadow(0 10px 20px rgba(46, 237, 46, 0.2))",
