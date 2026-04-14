@@ -18,7 +18,7 @@ const navLinks = [
   { name: "Commitments", href: "/#commitments" },
   { name: "Services", href: "/#services" },
   { name: "News", href: "/#news" },
-  { name: "Careers", href: "/job" }, // <--- HADI HIYA L'PAGE JDIDA!
+  { name: "Careers", href: "/Careers" }, // <--- HADI HIYA L'PAGE JDIDA!
 ];
 
 export default function Navbar() {

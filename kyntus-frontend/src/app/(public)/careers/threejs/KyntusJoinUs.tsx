@@ -131,8 +131,9 @@ function SharpParticleText() {
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={randomPositions.length / 3} array={randomPositions} itemSize={3} />
-        <bufferAttribute attach="attributes-color" count={colors.length / 3} array={colors} itemSize={3} />
+        {/* 🚨 Hna fin t-gad l'mochkil dyal args 🚨 */}
+        <bufferAttribute attach="attributes-position" count={randomPositions.length / 3} args={[randomPositions, 3]} />
+        <bufferAttribute attach="attributes-color" count={colors.length / 3} args={[colors, 3]} />
       </bufferGeometry>
       {/* Size sghir w opaque bach y-3ti 7edda (sharpness) */}
       <pointsMaterial size={0.018} vertexColors transparent opacity={0.95} depthWrite={false} blending={THREE.AdditiveBlending} />
