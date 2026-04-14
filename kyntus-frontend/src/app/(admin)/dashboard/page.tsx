@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { fetchApi } from '@/lib/api';
-import { motion } from 'framer-motion';
+// 🚨 Zedt Variants hna
+import { motion, Variants } from 'framer-motion';
 import styles from './home.module.css';
 
 export default function DashboardHome() {
@@ -22,8 +23,9 @@ export default function DashboardHome() {
 
   if (loading) return <div className={styles.container}><div className={styles.loader}>[ SYSTEM_LOADING... ]</div></div>;
 
-  const containerVars = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
-  const cardVars = { hidden: { opacity: 0, y: 30, scale: 0.9 }, visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 100, damping: 15 } } };
+  // 🚨 Typeyit hadou b Variants
+  const containerVars: Variants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
+  const cardVars: Variants = { hidden: { opacity: 0, y: 30, scale: 0.9 }, visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 100, damping: 15 } } };
 
   return (
     <motion.div className={styles.container} variants={containerVars} initial="hidden" animate="visible">
