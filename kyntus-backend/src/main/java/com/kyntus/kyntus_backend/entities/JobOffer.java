@@ -1,42 +1,34 @@
-package com.kyntus.kyntus_backend.entities;
+package com.kyntus.kyntus_backend.models;
 
 import jakarta.persistence.*;
-import lombok.*;
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "job_applications")
+@Table(name = "job_offers")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class JobApplication {
+public class JobOffer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String fullName;
+    private String title;
 
-    @Column(nullable = false)
-    private String email;
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
-    private String phone;
+    @Column(columnDefinition = "TEXT")
+    private String requirements;
 
-    @Column(nullable = false)
-    private String resumeUrl;
+    private String location;
 
-    @Column(updatable = false)
-    private LocalDateTime appliedAt;
+    private Boolean isActive = true;
 
-    // L'UPDATE HNA: nullable = true (Candidature spontanée awla l offre specifique)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_offer_id", nullable = true)
-    private JobOffer jobOffer;
-
-    @PrePersist
-    protected void onCreate() {
-        this.appliedAt = LocalDateTime.now();
-    }
+    // L'attribut jdid dyal tswira
+    @Column(name = "image_url")
+    private String imageUrl;
 }

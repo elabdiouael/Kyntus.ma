@@ -1,0 +1,240 @@
+/* =========================================
+   ENTERPRISE NEXUS 2090 - KYNTUS ARCHITECTURE
+   ========================================= */
+
+/* ── 1. GLOBAL & LAYOUT ── */
+.globalWrapper {
+  background-color: #01081f; 
+  background-image: 
+    radial-gradient(circle at 50% 10%, rgba(0, 255, 163, 0.08) 0%, transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  background-position: center top, center center, center center;
+  min-height: 100vh; width: 100vw; overflow-x: hidden; position: relative;
+}
+
+.container { min-height: 100vh; position: relative; z-index: 10; padding: 6rem 2rem 6rem 2rem; display: flex; flex-direction: column; align-items: center; color: #ffffff; }
+.contentWrapper { position: relative; z-index: 10; width: 100%; max-width: 1350px; }
+
+/* ── 2. HEADER ── */
+.header { text-align: center; margin-bottom: 2rem; position: relative; display: flex; flex-direction: column; align-items: center; }
+.subtitle { color: rgba(255, 255, 255, 0.7); font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height: 1.6; font-family: monospace; letter-spacing: 1px; }
+
+/* =========================================
+   3. THE MECHA TRANSFORMER CARDS (Blanc Cassé)
+   ========================================= */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 3.5rem; perspective: 2500px;}
+
+.mechChassis {
+  position: relative; height: 400px; border-radius: 12px; background: rgba(1, 8, 31, 0.4); 
+  border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); 
+  transform-style: preserve-3d; overflow: hidden; 
+}
+
+.mechChassis:hover { box-shadow: 0 35px 70px rgba(0, 0, 0, 0.7), 0 0 50px rgba(0, 255, 163, 0.15); border-color: rgba(0, 255, 163, 0.4); }
+
+.mechGlow { position: absolute; inset: 0; z-index: 1; opacity: 0; transition: opacity 0.4s; mix-blend-mode: screen; pointer-events: none; }
+.mechChassis:hover .mechGlow { opacity: 1; }
+
+.mechVisor {
+  position: absolute; top: 0; left: 0; right: 0; width: 100%; overflow: hidden; z-index: 5; 
+  border-bottom: 2px solid #00ffa3; box-shadow: 0 10px 20px rgba(0,0,0,0.5); transform-origin: top; transform-style: preserve-3d;
+}
+
+.heroImg { width: 100%; height: 100%; object-fit: cover; }
+.visorOverlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 20%, rgba(1, 8, 31, 0.9) 100%); z-index: 1; pointer-events: none; }
+
+.hardwareLed { 
+  position: absolute; bottom: 1rem; left: 1rem; z-index: 2; font-family: monospace; font-size: 0.75rem; font-weight: 800; 
+  padding: 0.4rem 0.8rem; border-radius: 4px; display: flex; align-items: center; gap: 0.5rem; 
+  background: rgba(0,0,0,0.8); color: #00ffa3; border: 1px solid rgba(0,255,163,0.3); backdrop-filter: blur(5px); 
+}
+.pulseDotCore { width: 6px; height: 6px; background-color: #00ffa3; border-radius: 50%; box-shadow: 0 0 10px #00ffa3; animation: pulse 2s infinite; }
+
+.mechCore {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 65%; 
+  background: linear-gradient(145deg, #F8FAFC 0%, #E2E8F0 100%); padding: 1.8rem; display: flex; flex-direction: column; z-index: 2; 
+  transform-style: preserve-3d; border-top: 1px solid #FFFFFF; box-shadow: inset 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.coreGrid { position: absolute; inset: 0; background-image: radial-gradient(rgba(1, 8, 31, 0.08) 1px, transparent 1px); background-size: 15px 15px; opacity: 0.8; pointer-events: none; z-index: 0; }
+.screwTopLeft, .screwTopRight { position: absolute; top: 15px; width: 6px; height: 6px; background: #CBD5E1; border-radius: 50%; box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3); }
+.screwTopLeft { left: 15px; } .screwTopRight { right: 15px; }
+
+.serialCode { color: #64748B; font-family: monospace; font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; display: block; margin-bottom: 0.5rem; position: relative; z-index: 1; }
+
+.coreTitle { font-size: 1.8rem; font-weight: 900; color: #0F172A; letter-spacing: -1px; margin-bottom: 0.4rem; position: relative; z-index: 1; text-shadow: 1px 1px 0px #FFFFFF; }
+.mechChassis:hover .coreTitle { animation: glitchAnim 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite; color: #00a86b; }
+
+.coreLocation { display: inline-flex; align-items: center; gap: 0.5rem; color: #009961; font-family: monospace; font-size: 0.9rem; font-weight: 800; margin-bottom: 0.8rem; position: relative; z-index: 1; }
+.coreDesc { color: #475569; font-size: 0.95rem; line-height: 1.5; flex: 1; font-weight: 600; position: relative; z-index: 1; }
+
+.coreFooter { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 1rem; position: relative; z-index: 1; }
+.warningTape { height: 4px; width: 40px; background: repeating-linear-gradient( 45deg, #F59E0B, #F59E0B 5px, #0F172A 5px, #0F172A 10px ); border-radius: 2px; margin-bottom: 0.5rem; }
+
+.mechSwitchBtn { 
+  display: flex; align-items: center; gap: 0.8rem; background: #0F172A; border: 1px solid rgba(0, 255, 163, 0.4); border-radius: 6px;
+  padding: 0.6rem 1rem; cursor: pointer; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 4px 10px rgba(0,0,0,0.2), inset 0 2px 0 rgba(255,255,255,0.1); position: relative; overflow: hidden;
+}
+.mechSwitchBtn::before, .mechSwitchBtn::after { content: '['; color: #00ffa3; font-size: 1.2rem; font-family: monospace; font-weight: 900; transition: 0.3s ease; position: absolute; opacity: 0; }
+.mechSwitchBtn::after { content: ']'; right: 5px; } .mechSwitchBtn::before { left: 5px; }
+.mechChassis:hover .mechSwitchBtn::before { transform: translateX(-5px); opacity: 1; text-shadow: 0 0 10px #00ffa3; }
+.mechChassis:hover .mechSwitchBtn::after { transform: translateX(5px); opacity: 1; text-shadow: 0 0 10px #00ffa3; }
+.switchText { color: #F8FAFC; font-family: monospace; font-size: 0.9rem; font-weight: 800; letter-spacing: 1px; transition: 0.3s; z-index: 2; position: relative;}
+.switchIcon { width: 24px; height: 24px; background: rgba(0, 255, 163, 0.1); border-radius: 4px; display: flex; justify-content: center; align-items: center; color: #00ffa3; transition: 0.3s; z-index: 2; position: relative;}
+.mechChassis:hover .mechSwitchBtn { background: #00ffa3; border-color: #00ffa3; box-shadow: 0 5px 20px rgba(0, 255, 163, 0.5), inset 0 -2px 0 rgba(0,0,0,0.1); transform: translateY(-2px) scale(1.05); }
+.mechChassis:hover .switchText { color: #0F172A; }
+.mechChassis:hover .switchIcon { background: #0F172A; color: #00ffa3; transform: translateX(5px); }
+
+/* =========================================
+   5. THE MAJESTIC 3D MODAL (x1000 UPGRADE)
+   ========================================= */
+.modalOverlay { position: fixed; inset: 0; background: rgba(1, 8, 31, 0.7); z-index: 9999; display: flex; justify-content: center; align-items: center; padding: 2rem; perspective: 3000px; overflow: hidden; }
+
+/* 🚨 NEW: THE MAJESTIC BACKGROUND GRID & GLOW 🚨 */
+.majesticGridBg {
+  position: absolute; inset: -50%; background-image: 
+    linear-gradient(rgba(0, 255, 163, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 163, 0.1) 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: rotateX(60deg) translateY(-200px);
+  transform-origin: center center;
+  animation: gridMove 10s linear infinite; pointer-events: none; z-index: 0;
+}
+.majesticCoreGlow {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 100vw; height: 100vh;
+  background: radial-gradient(circle at center, rgba(0, 255, 163, 0.15) 0%, transparent 60%);
+  pointer-events: none; z-index: 1; animation: majesticPulse 4s infinite alternate;
+}
+
+.explodedContainer { width: 100%; max-width: 1300px; height: 85vh; position: relative; display: flex; flex-direction: column; transform-style: preserve-3d; z-index: 10; }
+
+.cyberCloseBtn { position: absolute; top: -2rem; right: -2rem; z-index: 50; background: #ffffff; color: #01081f; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; box-shadow: 0 15px 30px rgba(0,0,0,0.4); border: 2px solid rgba(0,255,163,0.3); }
+.cyberCloseBtn:hover { background: #00ffa3; color: #01081f; border-color: #00ffa3; transform: rotate(90deg) scale(1.1); box-shadow: 0 0 40px rgba(0,255,163,0.6); }
+
+/* MEGA BOOT SEQUENCE */
+.megaBootOverlay { position: fixed; inset: 0; background: rgba(1, 8, 31, 0.98); backdrop-filter: blur(30px); z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.loaderText { color: #00ffa3; font-family: monospace; font-size: 1.5rem; letter-spacing: 4px; animation: blink 1s infinite; font-weight: 900; text-shadow: 0 0 20px rgba(0, 255, 163, 0.6); margin-top: -3rem; z-index: 10; }
+
+/* EXPLODED GRID SYSTEM */
+.explodedGrid { flex: 1; display: grid; grid-template-columns: 1.2fr 1fr; grid-template-rows: auto 1fr; gap: 2rem; height: 100%; transform-style: preserve-3d; }
+
+.explodedBox { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: 16px; padding: 2.5rem; position: relative; box-shadow: -20px 30px 60px rgba(0,0,0,0.5), 0 0 0 2px rgba(0, 255, 163, 0.3); }
+
+/* Block 1: Hero */
+.expHero { grid-column: 1; grid-row: 1; padding: 0; display: flex; align-items: flex-end; min-height: 280px; overflow: hidden; border: 2px solid #00ffa3; }
+.expHeroImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.expHeroOverlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent, rgba(1, 8, 31, 0.9) 100%); z-index: 1; }
+.hudScanner { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: rgba(0, 255, 163, 0.8); z-index: 2; box-shadow: 0 0 15px #00ffa3; animation: scanLine 4s linear infinite; }
+.hudCrosshair { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; border: 1px solid rgba(0,255,163,0.3); z-index: 2; border-radius: 50%; }
+.hudCrosshair::before { content: ''; position: absolute; top: 50%; left: -10px; right: -10px; height: 1px; background: rgba(0,255,163,0.3); }
+.hudCrosshair::after { content: ''; position: absolute; left: 50%; top: -10px; bottom: -10px; width: 1px; background: rgba(0,255,163,0.3); }
+
+.expHeroContent { position: relative; z-index: 3; padding: 2.5rem; width: 100%; }
+.expTag { font-family: monospace; color: #00ffa3; font-weight: 800; letter-spacing: 2px; font-size: 0.9rem; display: block; margin-bottom: 0.5rem; text-shadow: 0 0 10px rgba(0,0,0,0.8); }
+.expTitle { font-size: 3rem; font-weight: 900; color: #ffffff; line-height: 1.1; margin-bottom: 1rem; letter-spacing: -1px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+.expLocation { display: inline-flex; align-items: center; gap: 0.6rem; color: #ffffff; font-family: monospace; font-size: 1rem; font-weight: 800; }
+.pulseDotWhite { width: 8px; height: 8px; background-color: #ffffff; border-radius: 50%; box-shadow: 0 0 10px #ffffff; animation: pulse 2s infinite; }
+
+/* Blocks 2 & 3: Info */
+.expDesc { grid-column: 1; grid-row: 2; overflow-y: auto; }
+.expReq { grid-column: 1; grid-row: 3; }
+.expSectionTitle { color: #01081f; font-family: monospace; font-weight: 900; letter-spacing: 1px; font-size: 1.2rem; margin-bottom: 1rem; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+.expSectionTitle::before { content: ''; display: block; width: 12px; height: 12px; background: #00ffa3; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+.expText { color: #475569; line-height: 1.8; font-size: 1.1rem; font-weight: 600; }
+
+/* Block 4: Form */
+.expForm { grid-column: 2; grid-row: 1 / span 2; display: flex; flex-direction: column; background: #F8FAFC; }
+.formHeader { margin-bottom: 2.5rem; }
+.expFormTitle { font-size: 2.4rem; font-weight: 900; color: #01081f; margin-bottom: 0.5rem; letter-spacing: -1px; }
+.expFormSub { color: #64748b; font-size: 1rem; font-family: monospace; font-weight: 700; }
+
+.expFormGrid { display: flex; flex-direction: column; gap: 1.8rem; flex: 1; }
+.formRow { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+.cyberInputGroup { position: relative; width: 100%; margin-top: 1rem; }
+.cyberLabel { position: absolute; left: 0; top: 12px; pointer-events: none; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; font-family: monospace; transition: 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+.cyberInputWrapper { position: relative; width: 100%; border-bottom: 2px solid rgba(1, 8, 31, 0.15); transition: 0.3s; }
+.cyberFocused { border-bottom-color: transparent; }
+.cyberInputBase { width: 100%; padding: 12px 0; background: transparent; border: none; color: #01081f; font-size: 1.15rem; font-weight: 700; outline: none; font-family: monospace; position: relative; z-index: 5; }
+.cyberNeon { position: absolute; bottom: -2px; left: 0; height: 3px; width: 100%; background: #00ffa3; z-index: 6; box-shadow: 0 0 15px #00ffa3; transform-origin: left; }
+
+.expDropWrapper { margin-top: auto; padding-top: 1rem; }
+.expDropzone { border: 2px dashed rgba(1, 8, 31, 0.2); border-radius: 8px; padding: 2rem; display: flex; align-items: center; gap: 1.5rem; cursor: pointer; transition: all 0.3s ease; background: #ffffff; }
+.expDropActive { border-color: #00ffa3; background: rgba(0, 255, 163, 0.05); }
+.expDropLoaded { border-color: #01081f; border-style: solid; background: rgba(1, 8, 31, 0.05); }
+.expDropIcon { width: 55px; height: 55px; background: rgba(1, 8, 31, 0.05); border-radius: 8px; display: flex; justify-content: center; align-items: center; color: #01081f; transition: 0.3s; flex-shrink: 0; }
+.expDropLoaded .expDropIcon { background: #01081f; color: #00ffa3; }
+.expDropText { display: flex; flex-direction: column; }
+.expDropMain { color: #01081f; font-weight: 900; font-size: 1.15rem; }
+.expDropSub { color: #64748b; font-size: 0.9rem; font-family: monospace; font-weight: 700; }
+
+/* 🚨 CRAZY PHYSICAL 3D POP-OUT BUTTON 🚨 */
+.megaSubmitWrapper {
+  perspective: 1500px;
+  transform-style: preserve-3d;
+  margin-top: 1.5rem;
+}
+
+.megaSubmitBtn3D { 
+  background: #01081f; color: #00ffa3; border: none; padding: 1.5rem; border-radius: 8px; 
+  font-size: 1.2rem; font-family: monospace; font-weight: 900; letter-spacing: 3px; cursor: pointer; 
+  width: 100%; display: flex; justify-content: space-between; align-items: center; 
+  position: relative; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  /* Extreme 3D Pop Out Effect */
+  transform: translateZ(120px);
+  box-shadow: 
+    -15px 25px 35px rgba(0,0,0,0.5), 
+    -5px 10px 15px rgba(0, 255, 163, 0.3),
+    inset 0 0 10px rgba(255,255,255,0.1);
+  
+  /* Fake physical edges */
+  border-bottom: 4px solid #00a86b;
+  border-right: 4px solid #00a86b;
+}
+
+.submitBtnText { position: relative; z-index: 2; text-shadow: 0 0 10px rgba(0,255,163,0.5); }
+
+.megaSubmitBtn3D:hover:not(:disabled) { 
+  transform: translateZ(140px) scale(1.02); 
+  box-shadow: 
+    -20px 30px 45px rgba(0,0,0,0.6), 
+    -8px 15px 25px rgba(0, 255, 163, 0.5),
+    inset 0 0 15px rgba(255,255,255,0.2);
+  background: #051433;
+}
+
+.megaSubmitBtn3D:active:not(:disabled) {
+  transform: translateZ(80px) scale(0.98);
+  box-shadow: -5px 10px 15px rgba(0,0,0,0.4);
+  border-bottom: 2px solid #00a86b;
+  border-right: 2px solid #00a86b;
+}
+
+.laserScanLine {
+  position: absolute; top: 0; left: -20px; width: 5px; height: 100%;
+  background: #00ffa3; box-shadow: 0 0 20px 5px #00ffa3;
+  transform: skewX(-20deg); transition: 0.5s ease; opacity: 0;
+}
+.megaSubmitBtn3D:hover:not(:disabled) .laserScanLine { left: 110%; opacity: 1; transition: 0.8s ease-in-out; }
+.megaSubmitBtn3D:disabled { opacity: 0.5; cursor: not-allowed; transform: translateZ(0); box-shadow: none; border: none; }
+
+/* =========================================
+   KEYFRAMES
+   ========================================= */
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+@keyframes pulse { 0% { opacity: 0.3; } 50% { opacity: 1; box-shadow: 0 0 15px currentColor; } 100% { opacity: 0.3; } }
+@keyframes glitchAnim { 0% { transform: translate(0) } 20% { transform: translate(-2px, 2px) } 40% { transform: translate(-2px, -2px) } 60% { transform: translate(2px, 2px) } 80% { transform: translate(2px, -2px) } 100% { transform: translate(0) } }
+@keyframes scanLine { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+@keyframes gridMove { 0% { background-position: 0 0; } 100% { background-position: 0 60px; } }
+@keyframes majesticPulse { 0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); } }
+
+@media (max-width: 1000px) {
+  .explodedGrid { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .expHero, .expDesc, .expForm { grid-column: 1; transform: translateZ(0) !important; }
+  .expForm { grid-row: auto; }
+  .cyberCloseBtn { top: -4rem; right: 0; }
+}

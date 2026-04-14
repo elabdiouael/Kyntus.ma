@@ -1,10 +1,11 @@
 package com.kyntus.kyntus_backend.services;
 
-import com.kyntus.kyntus_backend.entities.JobApplication;
 import com.kyntus.kyntus_backend.entities.JobOffer;
 import com.kyntus.kyntus_backend.repositories.JobApplicationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.kyntus.kyntus_backend.entities.JobApplication;
+import com.kyntus.kyntus_backend.entities.JobOffer;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 

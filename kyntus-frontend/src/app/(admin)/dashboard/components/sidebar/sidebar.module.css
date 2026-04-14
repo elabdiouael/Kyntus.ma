@@ -1,50 +1,134 @@
+/* =========================================
+   COLLAPSIBLE GLASS SIDEBAR (2090 EDITION)
+   ========================================= */
+.sidebarWrapper {
+  position: relative;
+  width: 100px; /* L'3bar l'asasi li wahedha mn l'ecran */
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+}
+
 .sidebar {
-  width: 260px;
-  background-color: #0f172a; /* Bleu nuit trééés dark w luxe */
-  color: #ffffff;
+  position: absolute;
+  left: 1.5rem;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  width: 85px; /* Mejmou3a */
+  background: rgba(5, 10, 25, 0.65);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
   display: flex;
   flex-direction: column;
-  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
-  z-index: 10;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), background 0.5s ease;
+}
+
+/* L'HBAAL: Mli t9ereb l'Souris kat-tefre3 fo9 l'contenu */
+.sidebar:hover {
+  width: 280px; 
+  background: rgba(5, 10, 25, 0.95);
+  box-shadow: 0 30px 60px rgba(0, 68, 255, 0.2), inset 0 0 0 1px rgba(255,255,255,0.1);
 }
 
 .logoContainer {
-  height: 70px;
+  height: 90px;
+  min-width: 280px; /* Bach mayt3wejnch l'ktaba mli tkon mejmou3a */
   display: flex;
   align-items: center;
-  padding: 0 1.5rem;
-  font-size: 1.5rem;
-  font-weight: bold;
-  letter-spacing: 1px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 1.8rem;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -1px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logoText {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.sidebar:hover .logoText {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.15s; /* Kat-tsenna sidebar t-t7el 3ad tban */
 }
 
 .logoAccent {
-  color: #3b82f6; /* Accent bleu */
+  color: #00e5ff;
+  text-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
 }
 
 .navLinks {
   flex: 1;
-  padding: 1.5rem 0;
+  padding: 2rem 0;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  overflow-x: hidden;
 }
 
 .navItem {
-  padding: 0.8rem 1.5rem;
+  position: relative;
+  min-width: 280px;
+  margin: 0 0.8rem;
+  padding: 1rem;
   display: flex;
   align-items: center;
-  gap: 1rem;
   color: #94a3b8;
   text-decoration: none;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  border-left: 3px solid transparent;
+  border-radius: 16px;
+  transition: color 0.3s ease;
+  z-index: 2;
 }
 
-.navItem:hover, .navItemActive {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
-  border-left: 3px solid #3b82f6;
+.navItem:hover, .navItemActive { color: #ffffff; }
+
+.icon {
+  min-width: 28px;
+  display: flex;
+  justify-content: center;
+  margin-left: 0.2rem;
+  margin-right: 1.5rem;
+  color: inherit;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.navItem:hover .icon {
+  transform: scale(1.1) rotate(-5deg);
+  color: #00e5ff;
+  filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.6));
+}
+
+.navText {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.sidebar:hover .navText {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.1s;
+}
+
+/* L'Active Pill (Animated background) */
+.activePill {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; width: 254px; /* Width dyal l'pill */
+  background: linear-gradient(135deg, rgba(0, 68, 255, 0.3) 0%, rgba(0, 229, 255, 0.05) 100%);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 16px;
+  z-index: -1;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }

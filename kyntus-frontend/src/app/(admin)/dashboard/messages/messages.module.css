@@ -1,69 +1,126 @@
+/* =========================================
+   SECURE INBOX DATA-GRID
+   ========================================= */
 .container {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
 }
 
-.header {
+.headerCard {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.headerGlow {
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 150px; height: 150px;
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.2) 0%, transparent 70%); /* Glow 7mer khfif */
+  filter: blur(30px);
+  pointer-events: none;
 }
 
 .title {
-  color: #1e293b;
-  font-size: 1.5rem;
+  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  position: relative;
+  z-index: 2;
 }
 
-.addBtn {
-  background-color: #0056b3; /* Kyntus Blue */
-  color: white;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.addBtn:hover {
-  background-color: #004494;
+.tableContainer {
+  background: rgba(10, 15, 30, 0.5);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  overflow-x: auto;
 }
 
 .table {
   width: 100%;
-  border-collapse: collapse;
-}
-
-.table th, .table td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #f1f5f9;
+  border-collapse: separate;
+  border-spacing: 0 8px;
 }
 
 .table th {
+  padding: 1rem 1.5rem;
+  text-align: left;
   color: #64748b;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  font-size: 0.85rem;
-  letter-spacing: 0.5px;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  font-family: monospace;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .table td {
-  color: #334155;
+  padding: 1.2rem 1.5rem;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.3s ease;
 }
 
-.actionBtn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.2rem;
-  margin-right: 1rem;
-  color: #94a3b8;
-  transition: color 0.2s;
+.table td:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
+.table td:last-child { border-top-right-radius: 12px; border-bottom-right-radius: 12px; }
+
+/* L'HBAAL: Message Jdid vs Message 9dim */
+.rowUnread td {
+  background: rgba(239, 68, 68, 0.05);
+  border-top: 1px solid rgba(239, 68, 68, 0.1);
+  border-bottom: 1px solid rgba(239, 68, 68, 0.1);
+}
+.rowUnread:hover td { background: rgba(239, 68, 68, 0.1); }
+
+.rowRead:hover td { background: rgba(255, 255, 255, 0.05); }
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: monospace;
 }
 
-.actionBtn.edit:hover { color: #3b82f6; }
-.actionBtn.delete:hover { color: #ef4444; }
+.statusUnread {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.statusRead {
+  background: rgba(255, 255, 255, 0.05);
+  color: #64748b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.blinkingDot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+  animation: pulseDot 1.5s infinite;
+}
+
+@keyframes pulseDot { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+.emailText { color: #3b82f6; font-size: 0.9rem; }
+.subjectText { color: #ffffff; font-weight: 600; font-size: 1.05rem; margin-bottom: 0.3rem; }

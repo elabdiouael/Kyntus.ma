@@ -1,218 +1,166 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { fetchApi } from '@/lib/api';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './articles.module.css';
 
-interface Article {
-  id: number;
-  title: string;
-  content: string;
-  imageUrl: string;
-  publishedAt: string;
-}
+interface Article { id: number; title: string; content: string; mediaUrl: string; mediaType: string; publishedAt: string; }
 
 export default function ArticlesPage() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
-
-  // States dyal l'Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [formData, setFormData] = useState({ title: '', content: '', imageUrl: '' });
+  
+  const [formData, setFormData] = useState({ title: '', content: '' });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSaving, setIsSaving] = useState(false);
 
-  useEffect(() => {
-    loadArticles();
-  }, []);
+  useEffect(() => { loadArticles(); }, []);
 
   const loadArticles = async () => {
-    try {
-      const data = await fetchApi('/articles');
-      setArticles(data);
-    } catch (error) {
-      console.error("Erreur chargement articles", error);
-    } finally {
-      setLoading(false);
-    }
+    try { const data = await fetchApi('/articles'); setArticles(data.sort((a: any, b: any) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())); } 
+    catch (error) { console.error(error); } finally { setLoading(false); }
   };
 
   const openModal = (article?: Article) => {
-    if (article) {
-      setEditingId(article.id);
-      setFormData({ title: article.title, content: article.content, imageUrl: article.imageUrl || '' });
-    } else {
-      setEditingId(null);
-      setFormData({ title: '', content: '', imageUrl: '' });
-    }
+    if (article) { setEditingId(article.id); setFormData({ title: article.title, content: article.content }); setSelectedFile(null); } 
+    else { setEditingId(null); setFormData({ title: '', content: '' }); setSelectedFile(null); }
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setFormData({ title: '', content: '', imageUrl: '' });
-    setEditingId(null);
-  };
+  const closeModal = () => { setIsModalOpen(false); setFormData({ title: '', content: '' }); setSelectedFile(null); setEditingId(null); };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSaving(true);
+    e.preventDefault(); setIsSaving(true);
+    const data = new FormData();
+    data.append("title", formData.title);
+    data.append("content", formData.content);
+    if (selectedFile) data.append("file", selectedFile);
+
     try {
-      if (editingId) {
-        await fetchApi(`/articles/${editingId}`, {
-          method: 'PUT',
-          body: JSON.stringify(formData),
-        });
-      } else {
-        await fetchApi('/articles', {
-          method: 'POST',
-          body: JSON.stringify(formData),
-        });
-      }
-      closeModal();
-      loadArticles();
-    } catch (error) {
-      console.error("Erreur d'enregistrement", error);
-      alert("Une erreur s'est produite lors de l'enregistrement.");
-    } finally {
-      setIsSaving(false);
-    }
+      if (editingId) await fetchApi(`/articles/${editingId}`, { method: 'PUT', body: data });
+      else await fetchApi('/articles', { method: 'POST', body: data });
+      closeModal(); loadArticles();
+    } catch (error) { alert("Erreur d'enregistrement."); } finally { setIsSaving(false); }
   };
 
   const handleDelete = async (id: number) => {
-    if (window.confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
-      try {
-        await fetchApi(`/articles/${id}`, {
-          method: 'DELETE',
-        });
-        loadArticles();
-      } catch (error) {
-        console.error("Erreur de suppression", error);
-        alert("Une erreur s'est produite.");
-      }
+    if (window.confirm("CONFIRM_DELETE: Voulez-vous vraiment supprimer cet article ?")) {
+      try { await fetchApi(`/articles/${id}`, { method: 'DELETE' }); loadArticles(); } 
+      catch (error) { alert("Erreur de suppression."); }
     }
   };
 
+  const containerVars = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
+  const rowVars = { hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 100 } } };
+
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>Actualités & News</h1>
+    <motion.div className={styles.container} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+      
+      <div className={styles.headerCard}>
+        <div className={styles.headerGlow} />
+        <h1 className={styles.title}>Publications Node</h1>
         <button className={styles.addBtn} onClick={() => openModal()}>
-          + Nouvel Article
+          <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          DEPLOY_ARTICLE
         </button>
       </div>
 
-      {loading ? (
-        <p style={{ color: '#64748b' }}>Chargement des actualités...</p>
-      ) : (
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th style={{ width: '80px' }}>Image</th>
-              <th>Titre de l'article</th>
-              <th>Date de publication</th>
-              <th style={{ textAlign: 'right' }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {articles.map((article) => (
-              <tr key={article.id}>
-                <td>
-                  {article.imageUrl ? (
-                    <img src={article.imageUrl} alt={article.title} className={styles.articleImage} />
-                  ) : (
-                    <div className={styles.articleImage} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', fontSize: '0.8rem' }}>
-                      N/A
-                    </div>
-                  )}
-                </td>
-                <td>
-                  <strong style={{ color: '#0f172a', fontSize: '1.05rem' }}>{article.title}</strong>
-                  <div style={{ color: '#64748b', fontSize: '0.85rem', marginTop: '0.3rem' }}>
-                    {article.content.length > 60 ? article.content.substring(0, 60) + '...' : article.content}
-                  </div>
-                </td>
-                <td>
-                  <span className={styles.dateBadge}>
-                    {new Date(article.publishedAt).toLocaleDateString('fr-FR', {
-                      day: '2-digit', month: 'short', year: 'numeric'
-                    })}
-                  </span>
-                </td>
-                <td style={{ textAlign: 'right' }}>
-                  <button className={`${styles.actionBtn} ${styles.edit}`} onClick={() => openModal(article)} title="Modifier">
-                    ✏️
-                  </button>
-                  <button className={`${styles.actionBtn} ${styles.delete}`} onClick={() => handleDelete(article.id)} title="Supprimer">
-                    🗑️
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {articles.length === 0 && (
+      <div className={styles.tableContainer}>
+        {loading ? (
+          <div style={{ padding: "3rem", textAlign: "center", color: "#a78bfa", fontFamily: "monospace" }}>[ FETCHING_PUBLICATIONS... ]</div>
+        ) : (
+          <table className={styles.table}>
+            <thead>
               <tr>
-                <td colSpan={4} style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>
-                  Aucune actualité pour le moment. Cliquez sur "+ Nouvel Article".
-                </td>
+                <th style={{ width: '80px' }}>Media</th>
+                <th>Title & Content</th>
+                <th>Timestamp</th>
+                <th style={{ textAlign: 'right' }}>Execute</th>
               </tr>
-            )}
-          </tbody>
-        </table>
-      )}
+            </thead>
+            <motion.tbody variants={containerVars} initial="hidden" animate="visible">
+              {articles.map((article) => (
+                <motion.tr key={article.id} variants={rowVars} className={styles.tableRow}>
+                  <td>
+                    {article.mediaUrl ? (
+                      article.mediaType === "IMAGE" ? (
+                        <img src={`http://localhost:8081/uploads/${article.mediaUrl}`} alt="media" className={styles.articleImage} />
+                      ) : (
+                        <div className={styles.noImage}>[ {article.mediaType} ]</div>
+                      )
+                    ) : (
+                      <div className={styles.noImage}>NULL</div>
+                    )}
+                  </td>
+                  <td>
+                    <strong style={{ color: '#ffffff', fontSize: '1.05rem' }}>{article.title}</strong>
+                    <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', marginTop: '0.4rem' }}>
+                      {article.content.length > 60 ? article.content.substring(0, 60) + '...' : article.content}
+                    </div>
+                  </td>
+                  <td>
+                    <span className={styles.dateBadge}>
+                      {new Date(article.publishedAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' })}
+                    </span>
+                  </td>
+                  <td style={{ textAlign: 'right' }}>
+                    <button className={`${styles.actionBtn} ${styles.edit}`} onClick={() => openModal(article)}>
+                      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    </button>
+                    <button className={`${styles.actionBtn} ${styles.delete}`} onClick={() => handleDelete(article.id)}>
+                      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                    </button>
+                  </td>
+                </motion.tr>
+              ))}
+              {articles.length === 0 && (
+                <tr><td colSpan={4} style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>NO_PUBLICATIONS_FOUND</td></tr>
+              )}
+            </motion.tbody>
+          </table>
+        )}
+      </div>
 
-      {/* MODAL AJOUT / MODIFICATION (Luxe Edition) */}
-      {isModalOpen && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h2 className={styles.modalTitle}>
-              {editingId ? 'Modifier l\'Article' : 'Rédiger un Article'}
-            </h2>
-            <form onSubmit={handleSubmit}>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Titre de l'article</label>
-                <input
-                  type="text"
-                  className={styles.input}
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  required
-                  placeholder="Le titre accrocheur de votre news..."
-                />
-              </div>
-              
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Lien de l'image (URL)</label>
-                <input
-                  type="url"
-                  className={styles.input}
-                  value={formData.imageUrl}
-                  onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                  placeholder="https://exemple.com/image.jpg"
-                />
-              </div>
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div className={styles.modalOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <motion.div className={styles.modal} initial={{ y: 50, scale: 0.9, opacity: 0 }} animate={{ y: 0, scale: 1, opacity: 1 }} exit={{ y: 20, scale: 0.95, opacity: 0 }} transition={{ type: "spring", damping: 25, stiffness: 300 }}>
+              <h2 className={styles.modalTitle}>{editingId ? 'Update_Data_Packet' : 'Inject_New_Packet'}</h2>
+              <form onSubmit={handleSubmit}>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Title_Identifier</label>
+                  <input type="text" className={styles.input} value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} required placeholder="Enter article designation..." />
+                </div>
 
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Contenu complet</label>
-                <textarea
-                  className={styles.textarea}
-                  value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  required
-                  placeholder="Écrivez le corps de votre article ici..."
-                />
-              </div>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Media_Attachment (Image/Video/Doc)</label>
+                  <div className={styles.fileUploadBox} onClick={() => fileInputRef.current?.click()}>
+                    <input ref={fileInputRef} type="file" onChange={(e) => { if (e.target.files?.[0]) setSelectedFile(e.target.files[0]); }} style={{ display: "none" }} />
+                    {selectedFile ? (
+                      <span style={{ color: '#a78bfa', fontFamily: 'monospace', fontWeight: 'bold' }}>{selectedFile.name} [ SELECTED ]</span>
+                    ) : (
+                      <span style={{ color: '#94a3b8', fontFamily: 'monospace' }}>&lt; CLICK TO BROWSE &gt;</span>
+                    )}
+                  </div>
+                </div>
 
-              <div className={styles.modalActions}>
-                <button type="button" className={styles.btnCancel} onClick={closeModal} disabled={isSaving}>
-                  Annuler
-                </button>
-                <button type="submit" className={styles.btnSave} disabled={isSaving}>
-                  {isSaving ? 'Publication...' : (editingId ? 'Mettre à jour' : 'Publier')}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-    </div>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Core_Content</label>
+                  <textarea className={styles.textarea} value={formData.content} onChange={(e) => setFormData({ ...formData, content: e.target.value })} required placeholder="Execute data entry here..." />
+                </div>
+                
+                <div className={styles.modalActions}>
+                  <button type="button" className={styles.btnCancel} onClick={closeModal} disabled={isSaving}>Abort</button>
+                  <button type="submit" className={styles.btnSave} disabled={isSaving}>{isSaving ? 'Processing...' : 'Execute()'}</button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }

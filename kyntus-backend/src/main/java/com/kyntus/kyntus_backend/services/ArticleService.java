@@ -4,6 +4,7 @@ import com.kyntus.kyntus_backend.entities.Article;
 import com.kyntus.kyntus_backend.repositories.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Service
@@ -11,6 +12,7 @@ import java.util.List;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final FileStorageService fileStorageService; // Injectina storage
 
     public List<Article> getAllArticles() {
         return articleRepository.findAll();
@@ -21,19 +23,41 @@ public class ArticleService {
                 .orElseThrow(() -> new RuntimeException("Article introuvable b l'ID: " + id));
     }
 
-    public Article createArticle(Article article) {
+    // UPDATE: Zidna MultipartFile f l'Create
+    public Article createArticle(Article article, MultipartFile file) {
+        if (file != null && !file.isEmpty()) {
+            String fileName = fileStorageService.storeFile(file);
+            article.setMediaUrl(fileName);
+            article.setMediaType(determineMediaType(file.getContentType()));
+        }
         return articleRepository.save(article);
     }
 
-    public Article updateArticle(Long id, Article articleDetails) {
+    // UPDATE: Zidna MultipartFile f l'Update
+    public Article updateArticle(Long id, Article articleDetails, MultipartFile file) {
         Article existingArticle = getArticleById(id);
         existingArticle.setTitle(articleDetails.getTitle());
         existingArticle.setContent(articleDetails.getContent());
-        existingArticle.setImageUrl(articleDetails.getImageUrl());
+
+        if (file != null && !file.isEmpty()) {
+            String fileName = fileStorageService.storeFile(file);
+            existingArticle.setMediaUrl(fileName);
+            existingArticle.setMediaType(determineMediaType(file.getContentType()));
+        }
+
         return articleRepository.save(existingArticle);
     }
 
     public void deleteArticle(Long id) {
         articleRepository.deleteById(id);
+    }
+
+    // Helper bach n3erfou chno sayfet l'user
+    private String determineMediaType(String contentType) {
+        if (contentType == null) return "UNKNOWN";
+        if (contentType.startsWith("image/")) return "IMAGE";
+        if (contentType.startsWith("video/")) return "VIDEO";
+        if (contentType.equals("application/pdf")) return "PDF";
+        return "DOCUMENT";
     }
 }

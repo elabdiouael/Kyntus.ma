@@ -22,7 +22,11 @@ public class Article {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    private String imageUrl;
+    // Bdlenaha mn imageUrl l' mediaUrl bach t-supporter kolchi
+    private String mediaUrl;
+
+    // Y9der ykon "IMAGE", "VIDEO", awla "DOCUMENT"
+    private String mediaType;
 
     @Column(updatable = false)
     private LocalDateTime publishedAt;

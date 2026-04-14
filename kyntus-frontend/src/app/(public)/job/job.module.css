@@ -1,0 +1,212 @@
+/* =========================================
+   MAIN CONTAINER (White Tech Base)
+   ========================================= */
+.jobPageContainer {
+  position: relative;
+  background-color: #ffffff;
+  min-height: 100vh;
+  padding: 10rem 2rem 5rem 2rem; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  overflow: hidden;
+  cursor: none !important; 
+}
+
+/* =========================================
+   PURE DEEP BLUE GRADIENTS (No Gray)
+   ========================================= */
+.bgZone1 {
+  position: absolute; top: 0; left: 0; width: 100%; height: 35vh;
+  /* Deep Blue pure w 9asse7 */
+  background: linear-gradient(to bottom, rgba(0, 8, 26, 0.9) 0%, rgba(0, 8, 26, 0.4) 50%, transparent 100%);
+  z-index: 2; pointer-events: none;
+}
+
+.bgZone2 {
+  display: none;
+}
+
+.bgZone3 {
+  position: absolute; bottom: 0; left: 0; width: 100%; height: 35vh;
+  /* Deep Blue pure w 9asse7 */
+  background: linear-gradient(to top, rgba(0, 8, 26, 0.9) 0%, rgba(0, 8, 26, 0.4) 50%, transparent 100%);
+  z-index: 2; pointer-events: none;
+}
+
+/* =========================================
+   INTERACTIVE GRID WRAPPER
+   ========================================= */
+.interactiveGridWrapper {
+  position: absolute; 
+  inset: 0; 
+  z-index: 1; 
+  pointer-events: none; 
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
+}
+
+.premiumNoise {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.contentZIndex {
+  position: relative; z-index: 10; width: 100%;
+  display: flex; flex-direction: column; align-items: center; gap: 4rem;
+}
+
+/* =========================================
+   HERO SECTION
+   ========================================= */
+.heroSection { position: relative; text-align: center; max-width: 850px; width: 100%; z-index: 10; }
+
+.badge { 
+  display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.2rem; 
+  background: rgba(46, 237, 46, 0.05); color: #15803d; 
+  font-family: monospace; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; 
+  border-radius: 4px; margin-bottom: 2rem; border: 1px solid rgba(46, 237, 46, 0.2); 
+}
+
+.blinkingDot { width: 8px; height: 8px; background-color: #2EED2E; border-radius: 50%; animation: pulseDot 1.5s infinite; }
+@keyframes pulseDot { 0% { opacity: 0.4; } 70% { opacity: 1; box-shadow: 0 0 0 8px rgba(46, 237, 46, 0); } 100% { opacity: 0.4; } }
+
+.title { font-size: clamp(3rem, 5vw, 5.5rem); font-weight: 900; color: #010308; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1px; }
+
+.highlight { 
+  background: linear-gradient(110deg, #010308 0%, #2EED2E 50%, #010308 100%); 
+  background-size: 200% auto; -webkit-text-fill-color: transparent; background-clip: text; -webkit-background-clip: text; 
+}
+
+.description { font-size: 1.2rem; color: #475569; line-height: 1.8; margin-bottom: 3rem; font-weight: 400; max-width: 700px; margin-inline: auto; }
+
+.perkItem { display: flex; align-items: center; gap: 0.8rem; color: #1e293b; font-weight: 600; font-family: monospace; }
+.perkIconWrapper { display: flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: rgba(46, 237, 46, 0.05); border: 1px solid rgba(46, 237, 46, 0.2); border-radius: 8px; }
+.perkItem svg { width: 18px; height: 18px; color: #2EED2E; }
+
+/* =========================================
+   APPLICATION FORM (Z-INDEX & OVERFLOW FIX)
+   ========================================= */
+.formSection { position: relative; width: 100%; max-width: 750px; z-index: 50; }
+
+.cyberForm {
+  position: relative; 
+  /* Deep Blue Mghlooo9 n9i, machi Gris */
+  background: rgba(1, 8, 28, 0.85); 
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px); 
+  border: 1px solid rgba(46, 237, 46, 0.2);
+  border-radius: 12px; 
+  /* 🚨 CRITICAL FIX: 7iydna overflow: hidden bach Dropdown tkhrej 3la ra7t'ha */
+  overflow: visible; 
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Inner wrapper bach n7afdo 3la l'border-radius dyal l'background */
+.formContentWrapper {
+  position: relative; z-index: 10; padding: 3.5rem;
+  border-radius: 12px;
+  background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+.formHeader { text-align: left; margin-bottom: 2.5rem; border-bottom: 1px solid rgba(46, 237, 46, 0.15); padding-bottom: 1.5rem;}
+.systemBadge { color: #2EED2E; font-family: monospace; font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 1rem; }
+.formHeader h3 { color: #ffffff; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; }
+.subText { color: #94a3b8; font-size: 0.95rem; font-family: monospace; }
+.blinkingCursor { display: inline-block; width: 12px; height: 1.1em; background-color: #2EED2E; vertical-align: text-bottom; margin-left: 6px; box-shadow: 0 0 10px rgba(46, 237, 46, 0.5); }
+
+/* INPUTS & LABELS */
+.inputGroup label { font-family: monospace; font-size: 0.85rem; font-weight: 700; color: #94a3b8; transition: color 0.3s ease; }
+.labelActive { color: #2EED2E !important; }
+
+.inputWrapper input {
+  background: rgba(0, 0, 0, 0.5); 
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  font-family: monospace;
+}
+.inputWrapper input:focus { border-color: #2EED2E; background: rgba(0, 0, 0, 0.8); box-shadow: 0 5px 15px rgba(46, 237, 46, 0.1); }
+
+/* FILE UPLOAD */
+.fileUploadBox { border: 1px dashed rgba(46, 237, 46, 0.3); background: rgba(0, 0, 0, 0.3); }
+.fileTitleHacker { color: #e2e8f0; }
+.fileName { color: #2EED2E; font-weight: 800; }
+
+/* SUBMIT BUTTON */
+.submitBtn {
+  background: #01081c;
+  color: #2EED2E;
+  border: 1px solid #2EED2E;
+  font-family: monospace;
+  transition: all 0.3s ease;
+}
+.submitBtn:hover { background: #2EED2E; color: #01081c; box-shadow: 0 0 25px rgba(46, 237, 46, 0.4); }
+.btnLaser { background: linear-gradient(90deg, transparent, rgba(46, 237, 46, 0.4), transparent); }
+
+/* =========================================
+   MAIN CONTAINER
+   ========================================= */
+.jobPageContainer {
+  position: relative;
+  background-color: transparent; /* Kheliha transparent bach yban shader dyal 3js */
+  min-height: 100vh;
+  padding: 10rem 2rem 5rem 2rem; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  overflow: hidden;
+  cursor: none !important; 
+}
+
+/* =========================================
+   CLEAN ZONES (Khawén 7it 3JS kaydir koulshi)
+   ========================================= */
+.bgZone1, .bgZone2, .bgZone3 {
+  display: none; 
+}
+
+/* NOISE TEXTURE */
+.premiumNoise {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.contentZIndex {
+  position: relative; z-index: 10; width: 100%;
+  display: flex; flex-direction: column; align-items: center; gap: 4rem;
+}
+
+/* =========================================
+   HERO SECTION
+   ========================================= */
+.heroSection { position: relative; text-align: center; max-width: 850px; width: 100%; z-index: 10; }
+
+.badge { 
+  display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.2rem; 
+  background: rgba(255, 255, 255, 0.1); color: #ffffff; 
+  font-family: monospace; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; 
+  border-radius: 4px; margin-bottom: 2rem; border: 1px solid rgba(255, 255, 255, 0.3); 
+}
+
+.blinkingDot { width: 8px; height: 8px; background-color: #2EED2E; border-radius: 50%; animation: pulseDot 1.5s infinite; }
+@keyframes pulseDot { 0% { opacity: 0.4; } 70% { opacity: 1; box-shadow: 0 0 0 8px rgba(46, 237, 46, 0); } 100% { opacity: 0.4; } }
+
+.title { font-size: clamp(3rem, 5vw, 5.5rem); font-weight: 900; color: #ffffff; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1px; }
+
+.highlight { 
+  background: linear-gradient(110deg, #ffffff 0%, #2EED2E 50%, #ffffff 100%); 
+  background-size: 200% auto; -webkit-text-fill-color: transparent; background-clip: text; -webkit-background-clip: text; 
+}
+
+.description { font-size: 1.2rem; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 3rem; font-weight: 400; max-width: 700px; margin-inline: auto; }
+
+.perkItem { display: flex; align-items: center; gap: 0.8rem; color: #ffffff; font-weight: 600; font-family: monospace; }
+.perkIconWrapper { display: flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; }
+.perkItem svg { width: 18px; height: 18px; color: #ffffff; }
+
+/* THE REST IS HANDLED BY FRAMER MOTION IN TSX */
+.formSection { position: relative; width: 100%; max-width: 750px; }

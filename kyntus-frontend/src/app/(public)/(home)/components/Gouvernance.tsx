@@ -172,7 +172,7 @@ export default function Gouvernance() {
           </motion.div>
 
           <h2 className={styles.title}>
-            <TypewriterText text="Gouvernance." delayOffset={0.2} speed={0.06} className={styles.typewriterText} inView={isSectionInView} />
+            <TypewriterText text="Groupe Kyntus." delayOffset={0.2} speed={0.06} className={styles.typewriterText} inView={isSectionInView} />
           </h2>
 
           <p className={styles.subtitle}>

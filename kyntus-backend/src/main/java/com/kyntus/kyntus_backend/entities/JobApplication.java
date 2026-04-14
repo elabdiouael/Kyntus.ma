@@ -30,9 +30,9 @@ public class JobApplication {
     @Column(updatable = false)
     private LocalDateTime appliedAt;
 
-    // Relation m3a l'offre d'emploi
+    // L'UPDATE HNA: nullable = true (Candidature spontanée awla l offre specifique)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_offer_id", nullable = false)
+    @JoinColumn(name = "job_offer_id", nullable = true)
     private JobOffer jobOffer;
 
     @PrePersist

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,14 +27,33 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.getArticleById(id));
     }
 
-    @PostMapping
-    public ResponseEntity<Article> createArticle(@RequestBody Article article) {
-        return new ResponseEntity<>(articleService.createArticle(article), HttpStatus.CREATED);
+    // UPDATE: Consumes multipart/form-data
+    @PostMapping(consumes = {"multipart/form-data"})
+    public ResponseEntity<Article> createArticle(
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam(value = "file", required = false) MultipartFile file
+    ) {
+        Article article = Article.builder()
+                .title(title)
+                .content(content)
+                .build();
+        return new ResponseEntity<>(articleService.createArticle(article, file), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Article> updateArticle(@PathVariable Long id, @RequestBody Article articleDetails) {
-        return ResponseEntity.ok(articleService.updateArticle(id, articleDetails));
+    // UPDATE: Consumes multipart/form-data
+    @PutMapping(value = "/{id}", consumes = {"multipart/form-data"})
+    public ResponseEntity<Article> updateArticle(
+            @PathVariable Long id,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam(value = "file", required = false) MultipartFile file
+    ) {
+        Article articleDetails = Article.builder()
+                .title(title)
+                .content(content)
+                .build();
+        return ResponseEntity.ok(articleService.updateArticle(id, articleDetails, file));
     }
 
     @DeleteMapping("/{id}")

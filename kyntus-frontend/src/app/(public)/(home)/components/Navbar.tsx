@@ -7,11 +7,18 @@ import { Menu, X, ChevronRight } from "lucide-react";
 import MagneticElement from "../framemotionandgsap/MagneticElement";
 import styles from "./navbar.module.css";
 
+// ========================================================
+// 🚨 L'UPDATE L'MOHEM HNA: 
+// 1. Zedt "Careers" (href: "/job")
+// 2. Reddit les liens kaybdaw b "/" (/#about, /#services...) 
+//    bach ykhedmo mzyan 7ta ila knti f page jdida!
+// ========================================================
 const navLinks = [
-  { name: "About us", href: "#about" },
-  { name: "Commitments", href: "#commitments" },
-  { name: "Services", href: "#services" },
-  { name: "News", href: "#news" },
+  { name: "About us", href: "/#about" },
+  { name: "Commitments", href: "/#commitments" },
+  { name: "Services", href: "/#services" },
+  { name: "News", href: "/#news" },
+  { name: "Careers", href: "/job" }, // <--- HADI HIYA L'PAGE JDIDA!
 ];
 
 export default function Navbar() {
@@ -48,7 +55,6 @@ export default function Navbar() {
           layout
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          // HNA L'7EL: Easing mwezen bla Bounce!
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className={styles.contentWrapper}>
@@ -72,7 +78,6 @@ export default function Navbar() {
                   initial={{ opacity: 0, width: 0, paddingLeft: 0 }}
                   animate={{ opacity: 1, width: "auto", paddingLeft: "3rem" }}
                   exit={{ opacity: 0, width: 0, paddingLeft: 0 }}
-                  // HNA TANI: Easing Smooth
                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <div className={styles.linksWrapper}>
@@ -106,7 +111,8 @@ export default function Navbar() {
                   </div>
 
                   <MagneticElement>
-                    <Link href="#contact" className={styles.premiumBtn}>
+                    {/* HNA TANI ZEDNA L' "/" 9bel "#contact" */}
+                    <Link href="/#contact" className={styles.premiumBtn}>
                       <span className={styles.btnText}>Let's Talk</span>
                       <div className={styles.btnHoverBg}></div>
                     </Link>
@@ -194,7 +200,8 @@ export default function Navbar() {
                 transition={{ delay: navLinks.length * 0.1, type: "spring", bounce: 0 }}
                 style={{ marginTop: "2rem" }}
               >
-                <Link href="#contact" className={styles.mobileContactBtn} onClick={() => setIsMobileMenuOpen(false)}>
+                {/* ZEDNA L' "/" L'MOBILE 7TA HOWA */}
+                <Link href="/#contact" className={styles.mobileContactBtn} onClick={() => setIsMobileMenuOpen(false)}>
                   Let's Talk <ChevronRight size={20} />
                 </Link>
               </motion.div>

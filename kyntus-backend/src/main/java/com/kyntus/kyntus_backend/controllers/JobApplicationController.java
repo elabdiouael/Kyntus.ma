@@ -1,6 +1,6 @@
 package com.kyntus.kyntus_backend.controllers;
 
-import com.kyntus.kyntus_backend.entities.JobApplication;
+import com.kyntus.kyntus_backend.entities.JobApplication; // <--- HA L'IMPORT LI KAN NASS9
 import com.kyntus.kyntus_backend.services.JobApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
