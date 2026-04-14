@@ -1,7 +1,8 @@
 "use client";
 
 import React from 'react';
-import { motion } from 'framer-motion';
+// 🚨 Zedt Variants hna f l'import
+import { motion, Variants } from 'framer-motion';
 import styles from '../job.module.css';
 
 // ========================================================
@@ -10,7 +11,8 @@ import styles from '../job.module.css';
 const SmoothWordReveal = ({ text, delayOffset = 0, className = "" }: { text: string, delayOffset?: number, className?: string }) => {
   const words = text.split(" ");
 
-  const container = {
+  // 🚨 Typeyit had l'objet b Variants
+  const container: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -18,7 +20,8 @@ const SmoothWordReveal = ({ text, delayOffset = 0, className = "" }: { text: str
     }
   };
 
-  const child = {
+  // 🚨 Typeyit had l'objet b Variants
+  const child: Variants = {
     hidden: { opacity: 0, y: 40, filter: "blur(12px)", scale: 0.9 },
     visible: { 
       opacity: 1, y: 0, filter: "blur(0px)", scale: 1, 
@@ -51,7 +54,8 @@ const SmoothWordReveal = ({ text, delayOffset = 0, className = "" }: { text: str
 // 2. MAIN COMPONENT: JOB HERO
 // ========================================================
 export default function JobHero() {
-  const fadeUp = {
+  // 🚨 Typeyit had l'objet b Variants
+  const fadeUp: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
   };
@@ -76,7 +80,6 @@ export default function JobHero() {
         <h1 className={styles.title}>
           <SmoothWordReveal text="Shape The Future" delayOffset={0.2} /> <br />
           
-          {/* 🚨 FIX: Hna rddina "With Kyntus." block wa7ed animated bach l'Gradient l'Khedr ykhedm mzyan 🚨 */}
           <motion.span 
             className={styles.highlight}
             initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
