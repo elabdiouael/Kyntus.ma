@@ -18,17 +18,59 @@ const gridVariants = {
   }
 };
 
+// 🚨 DATA STATIQUE (FALLBACK) ILA L'BACKEND KAN TAYE7 🚨
+const STATIC_FALLBACK_OFFERS = [
+  {
+    id: 101,
+    title: "Lead AI Systems Engineer",
+    description: "Architect and deploy next-generation neural networks for automated infrastructure management. You will be responsible for overseeing the core Kyntus intelligence node.",
+    location: "Sector 7, Mars (Remote)",
+    requirements: "Python, TensorFlow, Kubernetes, 5+ years experience in high-availability systems.",
+    imageUrl: null
+  },
+  {
+    id: 102,
+    title: "Quantum Security Analyst",
+    description: "Protect Kyntus core systems against advanced cyber threats. Implement post-quantum cryptographic protocols across all communication nodes and secure data payloads.",
+    location: "Oujda Node, Morocco",
+    requirements: "Cryptography, Rust, Network Security, Zero-Trust Architecture.",
+    imageUrl: null
+  },
+  {
+    id: 103,
+    title: "Frontend Interface Architect",
+    description: "Design and build immersive 3D web interfaces. Create the visual layer for our control systems using advanced animations and raw CSS.",
+    location: "Hybrid / Local",
+    requirements: "React, Three.js, Framer Motion, strict adherence to Pure CSS architecture.",
+    imageUrl: null
+  }
+];
+
 export default function ArchitectCareersPage() {
   const [offers, setOffers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedOffer, setSelectedOffer] = useState<any | null>(null);
   
   useEffect(() => {
-    // Kanjibou data mn l'API public dyal les jobs actifs
+    // Kanjibou data mn l'API
     fetch("http://localhost:8081/api/job-offers/active")
-      .then(res => res.json())
-      .then(data => setOffers(data))
-      .catch(err => console.error("SYS_ERR:", err))
+      .then(res => {
+        if (!res.ok) throw new Error("Backend Unreachable");
+        return res.json();
+      })
+      .then(data => {
+        // Ila backend khdam ms mafih hta offre, n-affichiw statique (optionnel)
+        if (data.length === 0) {
+          setOffers(STATIC_FALLBACK_OFFERS);
+        } else {
+          setOffers(data);
+        }
+      })
+      .catch(err => {
+        console.warn("SYS_WARNING: Backend offline. Switching to Static Backup Nodes.");
+        // 🚨 ILA FATAL ERROR (Vercel), KAN-AFFICHIW DATA STATIQUE 🚨
+        setOffers(STATIC_FALLBACK_OFFERS);
+      })
       .finally(() => setLoading(false));
   }, []);
 
